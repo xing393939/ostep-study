@@ -3,8 +3,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
-#include "common.h"
-#include "common_threads.h"
+#include "../include/common.h"
+#include "../include/common_threads.h"
 
 typedef struct {
     int pid;

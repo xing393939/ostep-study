@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <pthread.h>
-#include "common_threads.h"
+#include "../include/common_threads.h"
 
 void *mythread(void *arg) {
     long long int value = (long long int) arg;

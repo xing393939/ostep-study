@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
-#include "common.h"
-#include "common_threads.h"
+#include "../include/common.h"
+#include "../include/common_threads.h"
 
 pthread_cond_t  c = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;

@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "common.h"
-#include "common_threads.h"
+#include "../include/common.h"
+#include "../include/common_threads.h"
 
 int max;
 int loops;
