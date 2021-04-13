@@ -43,7 +43,7 @@ clean:
 
 .PHONY:update_image
 update_image:
-	sudo cp -f ../floppy.img floppy.img
+	cp -f ../floppy.img floppy.img
 	sudo mount floppy.img /mnt/kernel
 	sudo cp hx_kernel /mnt/kernel/hx_kernel
 	sleep 1
