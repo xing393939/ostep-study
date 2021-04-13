@@ -51,11 +51,11 @@ update_image:
 
 .PHONY:qemu
 qemu:
-	qemu -fda floppy.img -boot a -nographic -curses
+	qemu-system-i386 -fda floppy.img -boot a -nographic -curses
 
 .PHONY:debug
 debug:
-	qemu -S -s -fda floppy.img -boot a &
+	qemu-system-i386 -S -s -fda floppy.img -boot a &
 	sleep 1
 	cgdb -x scripts/gdbinit
 
