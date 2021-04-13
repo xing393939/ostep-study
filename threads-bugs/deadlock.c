@@ -3,8 +3,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
-#include "common.h"
-#include "common_threads.h"
+#include "../include/common.h"
+#include "../include/common_threads.h"
 
 pthread_mutex_t L1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t L2 = PTHREAD_MUTEX_INITIALIZER;

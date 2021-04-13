@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "common_threads.h"
+#include "../include/common_threads.h"
 
 typedef struct {
     int a;

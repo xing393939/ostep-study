@@ -9,3 +9,6 @@ TARGET_LINK_LIBRARIES(t1 pthread)
 
 add_executable(thread_create threads-api/thread_create.c)
 TARGET_LINK_LIBRARIES(thread_create pthread)
+
+add_executable(join_ threads-cv/join.c include/common.h include/common_threads.h)
+TARGET_LINK_LIBRARIES(join_ pthread)
