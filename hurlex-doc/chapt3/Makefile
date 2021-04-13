@@ -43,25 +43,15 @@ clean:
 
 .PHONY:update_image
 update_image:
+	sudo cp -f ../floppy.img floppy.img
 	sudo mount floppy.img /mnt/kernel
 	sudo cp hx_kernel /mnt/kernel/hx_kernel
 	sleep 1
 	sudo umount /mnt/kernel
 
-.PHONY:mount_image
-mount_image:
-	sudo mount floppy.img /mnt/kernel
-
-.PHONY:umount_image
-umount_image:
-	sudo umount /mnt/kernel
-
 .PHONY:qemu
 qemu:
 	qemu -fda floppy.img -boot a -nographic -curses
-.PHONY:bochs
-bochs:
-	bochs -f scripts/bochsrc.txt
 
 .PHONY:debug
 debug:
