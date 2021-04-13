@@ -12,3 +12,6 @@ TARGET_LINK_LIBRARIES(thread_create pthread)
 
 add_executable(join_ threads-cv/join.c include/common.h include/common_threads.h)
 TARGET_LINK_LIBRARIES(join_ pthread)
+
+add_executable(join_modular threads-cv/join_modular.c include/common.h include/common_threads.h)
+TARGET_LINK_LIBRARIES(join_modular pthread)

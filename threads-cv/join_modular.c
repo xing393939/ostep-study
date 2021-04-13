@@ -4,10 +4,6 @@
 #include "../include/common.h"
 #include "../include/common_threads.h"
 
-//
-// Simple sync "object"
-//
-
 typedef struct {
     pthread_cond_t c;
     pthread_mutex_t m;
@@ -31,16 +27,11 @@ void sync_signal(synchronizer_t *s) {
 
 void sync_wait(synchronizer_t *s) {
     Mutex_lock(&s->m);
-    while (s->done == 0) 
-	Cond_wait(&s->c, &s->m); 
+    while (s->done == 0)
+        Cond_wait(&s->c, &s->m);
     s->done = 0; // reset for next use
     Mutex_unlock(&s->m);
 }
-
-
-//
-// Main threads
-//
 
 void *child(void *arg) {
     printf("child\n");
@@ -48,6 +39,7 @@ void *child(void *arg) {
     sync_signal(&s);
     return NULL;
 }
+
 int main(int argc, char *argv[]) {
     pthread_t p;
     printf("parent: begin\n");
