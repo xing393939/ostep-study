@@ -39,7 +39,7 @@ link:
 
 .PHONY:clean
 clean:
-	$(RM) $(S_OBJECTS) $(C_OBJECTS) hx_kernel
+	$(RM) $(S_OBJECTS) $(C_OBJECTS) hx_kernel floppy.img
 
 .PHONY:update_image
 update_image:
