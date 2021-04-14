@@ -55,6 +55,4 @@ qemu:
 
 .PHONY:debug
 debug:
-	qemu-system-i386 -fda floppy.img -boot a -nographic -curses &
-	sleep 1
 	cgdb -x scripts/gdbinit
