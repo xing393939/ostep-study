@@ -200,34 +200,29 @@
 </ol>
 <h4 id="hurlex-&#x4E94;-&#x76F8;&#x5173;&#x5E93;&#x51FD;&#x6570;&#x548C;&#x8C03;&#x8BD5;&#x6253;&#x5370;&#x51FD;&#x6570;">hurlex &lt;&#x4E94;&gt; &#x76F8;&#x5173;&#x5E93;&#x51FD;&#x6570;&#x548C;&#x8C03;&#x8BD5;&#x6253;&#x5370;&#x51FD;&#x6570;</h4>
 <ol>
-<li><a href="https://blog.csdn.net/slvher/article/details/8864996" target="_blank">Linux C&#x4E2D;&#x5185;&#x8054;&#x6C47;&#x7F16;&#x7684;&#x8BED;&#x6CD5;&#x683C;&#x5F0F;&#x53CA;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;</a>
-```
-asm [ volatile ] (  <pre><code>  assembler template
-  [ : output operands ]                /* optional */
-  [ : input operands  ]                /* optional */
-  [ : list of clobbered registers ]    /* optional */
-</code></pre>);</li>
-<li>volatile&#x5173;&#x952E;&#x5B57;&#x8868;&#x793A;&#x4E0D;&#x8981;&#x5BF9;&#x6C47;&#x7F16;&#x4EE3;&#x7801;&#x505A;&#x4EFB;&#x4F55;&#x4F18;&#x5316;</li>
-<li>%%reg&#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;%reg</li>
-<li>output operands&#xFF1A;=r&#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7EA6;&#x675F;&#xFF0C;=m&#x8868;&#x793A;&#x5185;&#x5B58;&#x7EA6;&#x675F;&#xFF0C;<a href="https://gcc.gnu.org/onlinedocs/gcc/Simple-Constraints.html#Simple-Constraints" target="_blank">https://gcc.gnu.org/onlinedocs/gcc/Simple-Constraints.html#Simple-Constraints</a><ul>
-<li>r&#x5BC4;&#x5B58;&#x5668;&#x7EA6;&#x675F;&#xFF1A;&#x5148;&#x628A;&#x503C;&#x8D4B;&#x7ED9;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x518D;&#x8D4B;&#x503C;&#x3002;&#x8FD8;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x5BC4;&#x5B58;&#x5668;&#xFF1A;<ul>
-<li>a : %eax, %ax, %al</li>
-<li>b : %ebx, %bx, %bl</li>
-<li>c : %ecx, %cx, %cl</li>
-<li>d : %edx, %dx, %dl</li>
-<li>S : %esi, %si</li>
-<li>D : %edi, %di</li>
-</ul>
-</li>
-<li>m&#x5185;&#x5B58;&#x7EA6;&#x675F;&#xFF1A;&#x4E0D;&#x60F3;&#x901A;&#x8FC7;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x8F6C;&#xFF0C;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#x5185;&#x5B58;</li>
-<li>0&#x5173;&#x8054;&#x7EA6;&#x675F;&#xFF1A;&#x4F8B;&#x5982;asm(&quot;incl %0&quot; : &quot;=a&quot;(var) : &quot;0&quot;(var)); &#x6307;&#x5B9A;&#x90FD;&#x7528;%eax&#x4F5C;&#x4E3A;&#x4E2D;&#x8F6C;&#x5BC4;&#x5B58;&#x5668;</li>
-</ul>
-</li>
-<li>input operands&#xFF1A;r&#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7EA6;&#x675F;</li>
-<li>list of clobbered registers&#xFF1A;&#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#xFF0C;&#x5185;&#x8054;&#x6C47;&#x7F16;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x8FD9;&#x4E9B;&#x5BC4;&#x5B58;&#x5668;
-```</li>
+<li><a href="https://blog.csdn.net/slvher/article/details/8864996" target="_blank">Linux C&#x4E2D;&#x5185;&#x8054;&#x6C47;&#x7F16;&#x7684;&#x8BED;&#x6CD5;&#x683C;&#x5F0F;&#x53CA;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;</a></li>
 </ol>
-
+<pre><code>asm [ volatile ] (  
+         assembler template
+         [ : output operands ]                /* optional */
+         [ : input operands  ]                /* optional */
+         [ : list of clobbered registers ]    /* optional */
+);
+1. volatile&#x5173;&#x952E;&#x5B57;&#x8868;&#x793A;&#x4E0D;&#x8981;&#x5BF9;&#x6C47;&#x7F16;&#x4EE3;&#x7801;&#x505A;&#x4EFB;&#x4F55;&#x4F18;&#x5316;
+2. %%reg&#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;%reg
+3. output operands&#xFF1A;=r&#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7EA6;&#x675F;&#xFF0C;=m&#x8868;&#x793A;&#x5185;&#x5B58;&#x7EA6;&#x675F;&#xFF0C;https://gcc.gnu.org/onlinedocs/gcc/Simple-Constraints.html#Simple-Constraints
+  * r&#x5BC4;&#x5B58;&#x5668;&#x7EA6;&#x675F;&#xFF1A;&#x5148;&#x628A;&#x503C;&#x8D4B;&#x7ED9;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x518D;&#x8D4B;&#x503C;&#x3002;&#x8FD8;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x5BC4;&#x5B58;&#x5668;&#xFF1A;
+    * a : %eax, %ax, %al
+    * b : %ebx, %bx, %bl
+    * c : %ecx, %cx, %cl
+    * d : %edx, %dx, %dl
+    * S : %esi, %si
+    * D : %edi, %di
+  * m&#x5185;&#x5B58;&#x7EA6;&#x675F;&#xFF1A;&#x4E0D;&#x60F3;&#x901A;&#x8FC7;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x8F6C;&#xFF0C;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;&#x5185;&#x5B58;
+  * 0&#x5173;&#x8054;&#x7EA6;&#x675F;&#xFF1A;&#x4F8B;&#x5982;asm(&quot;incl %0&quot; : &quot;=a&quot;(var) : &quot;0&quot;(var)); &#x6307;&#x5B9A;&#x90FD;&#x7528;%eax&#x4F5C;&#x4E3A;&#x4E2D;&#x8F6C;&#x5BC4;&#x5B58;&#x5668;
+4. input operands&#xFF1A;r&#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7EA6;&#x675F;
+5. list of clobbered registers&#xFF1A;&#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#xFF0C;&#x5185;&#x8054;&#x6C47;&#x7F16;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x8FD9;&#x4E9B;&#x5BC4;&#x5B58;&#x5668;
+</code></pre>
                                 
                                 </section>
                             
@@ -266,7 +261,7 @@ asm [ volatile ] (  <pre><code>  assembler template
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"previous":{"title":"2.整体框架","level":"1.3","depth":1,"path":"docs/2.md","ref":"docs/2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/3.md","mtime":"2021-04-14T03:29:23.452Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-14T03:29:49.514Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"previous":{"title":"2.整体框架","level":"1.3","depth":1,"path":"docs/2.md","ref":"docs/2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/3.md","mtime":"2021-04-14T08:15:49.253Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-14T08:16:21.825Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
