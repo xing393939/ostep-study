@@ -39,34 +39,22 @@ link:
 
 .PHONY:clean
 clean:
-	$(RM) $(S_OBJECTS) $(C_OBJECTS) hx_kernel
+	$(RM) $(S_OBJECTS) $(C_OBJECTS) hx_kernel floppy.img
 
 .PHONY:update_image
 update_image:
+	cp -f ../floppy.img floppy.img
 	sudo mount floppy.img /mnt/kernel
 	sudo cp hx_kernel /mnt/kernel/hx_kernel
 	sleep 1
 	sudo umount /mnt/kernel
 
-.PHONY:mount_image
-mount_image:
-	sudo mount floppy.img /mnt/kernel
-
-.PHONY:umount_image
-umount_image:
-	sudo umount /mnt/kernel
-
 .PHONY:qemu
 qemu:
-	qemu -fda floppy.img -boot a
-
-.PHONY:bochs
-bochs:
-	bochs -f scripts/bochsrc.txt
+	qemu-system-i386 -fda floppy.img -boot a -nographic -curses
 
 .PHONY:debug
 debug:
-	qemu -S -s -fda floppy.img -boot a &
+	qemu-system-i386 -S -s -fda floppy.img -boot a &
 	sleep 1
 	cgdb -x scripts/gdbinit
-
