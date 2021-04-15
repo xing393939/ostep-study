@@ -222,7 +222,28 @@
   * 0&#x5173;&#x8054;&#x7EA6;&#x675F;&#xFF1A;&#x4F8B;&#x5982;asm(&quot;incl %0&quot; : &quot;=a&quot;(var) : &quot;0&quot;(var)); &#x6307;&#x5B9A;&#x90FD;&#x7528;%eax&#x4F5C;&#x4E3A;&#x4E2D;&#x8F6C;&#x5BC4;&#x5B58;&#x5668;
 4. input operands&#xFF1A;r&#x8868;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7EA6;&#x675F;
 5. list of clobbered registers&#xFF1A;&#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#xFF0C;&#x5185;&#x8054;&#x6C47;&#x7F16;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x8FD9;&#x4E9B;&#x5BC4;&#x5B58;&#x5668;
-</code></pre>
+</code></pre><h4 id="hurlex-&#x516D;-&#x6DFB;&#x52A0;&#x5168;&#x5C40;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;">hurlex &lt;&#x516D;&gt; &#x6DFB;&#x52A0;&#x5168;&#x5C40;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#x8868;</h4>
+<ol>
+<li>GDT&#x8868;&#x53EA;&#x6709;5&#x4E2A;&#xFF1A;&#x57FA;&#x5740;&#x90FD;&#x662F;0&#xFF0C;limit&#x957F;&#x5EA6;&#x90FD;&#x662F;4G<ol>
+<li>&#x6309;&#x7167; Intel &#x6587;&#x6863;&#x8981;&#x6C42;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x63CF;&#x8FF0;&#x7B26;&#x5FC5;&#x987B;&#x5168; 0</li>
+<li>&#x5185;&#x6838;&#x4EE3;&#x7801;&#x6BB5;</li>
+<li>&#x5185;&#x6838;&#x6570;&#x636E;&#x6BB5;</li>
+<li>&#x7528;&#x6237;&#x6A21;&#x5F0F;&#x4EE3;&#x7801;&#x6BB5;</li>
+<li>&#x7528;&#x6237;&#x6A21;&#x5F0F;&#x6570;&#x636E;&#x6BB5;</li>
+</ol>
+</li>
+<li>&#x6253;&#x5370;GDT&#x8868;&#xFF1A;print /x gdt_entries</li>
+<li>&#x6253;&#x5370;GDT&#x8868;&#x5185;&#x5B58;&#x4F4D;&#x7F6E;&#xFF1A;print &amp;gdt_entries</li>
+<li>&#x67E5;&#x770B;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x7684;&#x5185;&#x5B58;&#x4F4D;&#x7F6E;&#xFF1A;readelf -s hx_kernel //&#x5176;&#x4E2D;Value&#x5217;&#x5C31;&#x662F;&#x3002;</li>
+<li>&#x67E5;&#x770B;6&#x4E2A;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#xFF1A;info registers&#x3002;&#x5176;&#x4E2D;CS=0x08&#xFF0C;&#x5176;&#x4ED6;&#x6BB5;=0x10<ul>
+<li>&#x6BB5;&#x5BC4;&#x5B58;&#x5668;16&#x4F4D;&#xFF1A;&#x524D;13&#x4F4D;&#x662F;segment selector&#xFF0C;1&#x4F4D;&#x662F;TI&#xFF08;Table Indicator&#xFF09;&#xFF0C;2&#x4F4D;&#x662F;RPL&#xFF08;Requested Privilege Level&#xFF09;</li>
+<li>0x08&#xFF1A;&#x524D;13&#x4F4D;&#x662F;1&#xFF0C;TI=0&#xFF0C;RPL=0</li>
+<li>0x10&#xFF1A;&#x524D;13&#x4F4D;&#x662F;2&#xFF0C;TI=0&#xFF0C;RPL=0</li>
+<li>&#x8C8C;&#x4F3C;&#x672C;&#x7AE0;&#x4E4B;&#x524D;&#x7684;&#x5B9E;&#x9A8C;&#xFF0C;cpu&#x7684;6&#x4E2A;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x5C31;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF0C;&#x53EA;&#x662F;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6CA1;&#x6709;GDT&#x8868;</li>
+</ul>
+</li>
+</ol>
+
                                 
                                 </section>
                             
@@ -261,7 +282,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"previous":{"title":"2.整体框架","level":"1.3","depth":1,"path":"docs/2.md","ref":"docs/2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/3.md","mtime":"2021-04-14T09:35:06.699Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-14T09:35:36.843Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"previous":{"title":"2.整体框架","level":"1.3","depth":1,"path":"docs/2.md","ref":"docs/2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/3.md","mtime":"2021-04-15T01:43:56.717Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-15T01:44:23.752Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
