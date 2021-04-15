@@ -243,6 +243,25 @@
 </ul>
 </li>
 </ol>
+<h4 id="hurlex-&#x4E03;-&#x6DFB;&#x52A0;&#x4E2D;&#x65AD;&#x63CF;&#x8FF0;&#x7B26;&#x8868;">hurlex &lt;&#x4E03;&gt; &#x6DFB;&#x52A0;&#x4E2D;&#x65AD;&#x63CF;&#x8FF0;&#x7B26;&#x8868;</h4>
+<ol>
+<li>NASM&#x7F16;&#x8BD1;&#x5668;&#x7684;&#x5B8F;&#x5B9A;&#x4E49;&#x7528;&#x6CD5;&#xFF1A;<a href="http://idiotsky.top/2016/05/16/asm-learning-road-5/" target="_blank">&#x6211;&#x7684;&#x6C47;&#x7F16;&#x5B66;&#x4E60;&#x4E4B;&#x8DEF;&#xFF08;5&#xFF09;</a></li>
+<li>&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#xFF1A;<ul>
+<li>cpu&#x6BCF;&#x6267;&#x884C;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x5C31;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x6709;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#xFF08;&#x5E26;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#xFF09;&#xFF0C;&#x4EE5;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x4E3A;&#x7D22;&#x5F15;&#x5728;IDT&#x4E2D;&#x627E;&#x5230;&#x6BB5;&#x9009;&#x62E9;&#x5B50;</li>
+<li>&#x901A;&#x8FC7;&#x6BB5;&#x9009;&#x62E9;&#x5B50;&#x5728;GDT&#x4E2D;&#x627E;&#x5230;&#x6BB5;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x68C0;&#x67E5;DPL&#x3001;CPL&#x3001;RPL&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x751F;&#x7279;&#x6743;&#x5207;&#x6362;&#xFF0C;&#x5219;&#x6D89;&#x53CA;TSS&#x6BB5;&#x548C;&#x7528;&#x6237;&#x6808;&#x548C;&#x5185;&#x6838;&#x6808;&#x7684;&#x5207;&#x6362;</li>
+</ul>
+</li>
+</ol>
+<pre><code class="lang-c">%macro ISR_NOERRCODE <span class="hljs-number">1</span>
+[GLOBAL isr%<span class="hljs-number">1</span>]
+isr%<span class="hljs-number">1</span>:
+    push %<span class="hljs-number">1</span>
+%endmacro
+<span class="hljs-comment">// &#x5176;&#x4E2D;&#x7B2C;&#x4E00;&#x884C;&#x7684;1&#x8868;&#x793A;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x7528;%1&#x6765;&#x8868;&#x793A;&#x3002;&#x5F53;&#x8C03;&#x7528;ISR_NOERRCODE 34&#xFF0C;&#x5373;&#x8868;&#x793A;&#x751F;&#x6210;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;</span>
+[GLOBAL isr34]
+isr34:
+    push <span class="hljs-number">34</span>
+</code></pre>
 
                                 
                                 </section>
@@ -282,7 +301,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"previous":{"title":"2.整体框架","level":"1.3","depth":1,"path":"docs/2.md","ref":"docs/2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/3.md","mtime":"2021-04-15T01:43:56.717Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-15T01:44:23.752Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"previous":{"title":"2.整体框架","level":"1.3","depth":1,"path":"docs/2.md","ref":"docs/2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/3.md","mtime":"2021-04-15T04:02:01.640Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-15T04:02:25.927Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
