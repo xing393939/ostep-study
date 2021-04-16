@@ -4,6 +4,8 @@
 #include "idt.h"
 
 #define KBD_BUF_PORT 0x60 // 键盘 buffer 寄存器端口号为 0x60
+static bool shift_status
+
 /* 用转义字符定义部分控制字符 */
 #define esc        '\033'     // 八进制表示字符,也可以用十六进制'\x1b'
 #define backspace  '\b'
@@ -100,11 +102,17 @@ static char keymap[][2] = {
 
 // 键盘中断处理程序
 void keyboard_callback(pt_regs *regs) {
-    uint16_t scan_code = inb(KBD_BUF_PORT);
-    uint8_t index = (scan_code &= 0x00ff);  // 将扫描码的高字节置0,主要是针对高字节是e0的扫描码.
+    uint16_t scancode = inb(KBD_BUF_PORT);
+    uint16_t shift = FALSE;
+
+    uint8_t index = (scancode &= 0x00ff);  // 将扫描码的高字节置0,主要是针对高字节是e0的扫描码.
     char cur_char = keymap[index][shift];  // 在数组中找到对应的字符
     if (cur_char) {
+        shift_status = FALSE;
         printk_color(rc_black, rc_red, "keyboard_callback %c\n", cur_char);
+    }
+    if (scancode == shift_l_make || scancode == shift_r_make) {
+        shift_status = TRUE;
     }
     return;
 }
