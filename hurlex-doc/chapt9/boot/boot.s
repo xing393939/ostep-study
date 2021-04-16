@@ -36,7 +36,7 @@ MBOOT_CHECKSUM 		equ 	- (MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
 
 [BITS 32]  	; 所有代码以 32-bit 的方式编译
 
-section .text 	; 代码段从这里开始
+section .init.text 	; 代码段从这里开始
 
 ; 在代码段的起始位置设置符合 Multiboot 规范的标记
 
@@ -62,12 +62,10 @@ stop:
 
 ;-----------------------------------------------------------------------------
 
-section .bss 			 ; 未初始化的数据段从这里开始
-stack:
-	resb 32768 	 	 ; 这里作为内核栈
-glb_mboot_ptr: 			 ; 全局的 multiboot 结构体指针
-	resb 4
+section .init.data		; 开启分页前临时的数据段
+stack:    times 1024 db 0  	; 这里作为临时内核栈
+STACK_TOP equ $-stack-1 	; 内核栈顶，$ 符指代是当前地址
 
-STACK_TOP equ $-stack-1 	 ; 内核栈顶，$ 符指代是当前地址
+glb_mboot_ptr: dd 0		; 全局的 multiboot 结构体指针
 
 ;-----------------------------------------------------------------------------
