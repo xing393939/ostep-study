@@ -21,6 +21,7 @@
 #include "gdt.h"
 #include "idt.h"
 #include "timer.h"
+#include "keyboard.h"
 
 int kern_entry()
 {
