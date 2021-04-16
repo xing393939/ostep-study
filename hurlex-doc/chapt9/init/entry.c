@@ -44,7 +44,7 @@ int kern_entry()
 	show_memory_map();
 	init_pmm();
 
-    printk_color(rc_black, rc_red, "\nThe Size of Physical Memory is: %d", phy_page_count * 4 / 1024);
+    printk_color(rc_black, rc_red, "\nThe Size of Physical Memory is: %dM", phy_page_count * 4 / 1024);
 	printk_color(rc_black, rc_red, "\nThe Count of Physical Memory Page is: %u\n\n", phy_page_count);
 
 	uint32_t allc_addr = NULL;
