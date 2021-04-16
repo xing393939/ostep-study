@@ -27,6 +27,7 @@ pgd_t pgd_kern[PGD_SIZE] __attribute__ ((aligned(PAGE_SIZE)));
 
 // 内核页表区域
 static pte_t pte_kern[PTE_COUNT][PTE_SIZE] __attribute__ ((aligned(PAGE_SIZE)));
+void page_fault(pt_regs *regs);
 
 void init_vmm()
 {

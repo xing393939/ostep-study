@@ -72,7 +72,7 @@ __attribute__((section(".init.text"))) void kern_entry()
                   "xor %%ebp, %%ebp" : : "r" (kern_stack_top));
 
     // 更新全局 multiboot_t 指针
-    glb_mboot_ptr = mboot_ptr_tmp + PAGE_OFFSET;
+    glb_mboot_ptr += PAGE_OFFSET;
 
     // 调用内核初始化函数
     kern_init();
