@@ -49,12 +49,12 @@ dd MBOOT_CHECKSUM       ; 检测数值，其含义在定义处
 [EXTERN kern_entry] 	; 声明内核 C 代码的入口函数
 
 start:
-	cli  			 ; 此时还没有设置好保护模式的中断处理，要关闭中断
-				 ; 所以必须关闭中断
-	mov esp, STACK_TOP  	 ; 设置内核栈地址
-	mov ebp, 0 		 ; 帧指针修改为 0
-	and esp, 0FFFFFFF0H	 ; 栈地址按照16字节对齐
-	mov [glb_mboot_ptr], ebx ; 将 ebx 中存储的指针存入全局变量
+	cli  				; 此时还没有设置好保护模式的中断处理，所以必须关闭中断
+	mov [glb_mboot_ptr], ebx	; 将 ebx 中存储的指针存入 glb_mboot_ptr 变量
+	mov esp, STACK_TOP  		; 设置内核栈地址，按照 multiboot 规范，当需要使用堆栈时，OS 映象必须自己创建一个
+	and esp, 0FFFFFFF0H		; 栈地址按照 16 字节对齐
+	mov ebp, 0 			; 帧指针修改为 0
+    
 	call kern_entry		 ; 调用内核入口函数
 stop:
 	hlt 			 ; 停机指令，什么也不做，可以降低 CPU 功耗
