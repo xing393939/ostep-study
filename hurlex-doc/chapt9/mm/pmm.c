@@ -35,7 +35,7 @@ void show_memory_map()
 	uint32_t mmap_addr = glb_mboot_ptr->mmap_addr;
 	uint32_t mmap_length = glb_mboot_ptr->mmap_length;
 
-	printk("Memory map:\n");
+	printk("Memory map(just focus on type=1):\n");
 
 	mmap_entry_t *mmap = (mmap_entry_t *)mmap_addr;
 	for (mmap = (mmap_entry_t *)mmap_addr; (uint32_t)mmap < mmap_addr + mmap_length; mmap++) {
