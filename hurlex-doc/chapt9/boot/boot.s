@@ -66,6 +66,6 @@ section .init.data		; 开启分页前临时的数据段
 stack:    times 1024 db 0  	; 这里作为临时内核栈
 STACK_TOP equ $-stack-1 	; 内核栈顶，$ 符指代是当前地址
 
-glb_mboot_ptr: resb 4		; 全局的 multiboot 结构体指针
+glb_mboot_ptr: dd 0		    ; 全局的 multiboot 结构体指针
 
 ;-----------------------------------------------------------------------------
