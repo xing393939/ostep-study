@@ -25,7 +25,7 @@
 #include "vmm.h"
 
 // 内核初始化函数
-void kern_init();
+int kern_init();
 
 // 开启分页机制之后的 Multiboot 数据指针
 multiboot_t *glb_mboot_ptr;
