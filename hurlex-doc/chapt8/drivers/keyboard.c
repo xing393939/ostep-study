@@ -103,6 +103,8 @@ static uint16_t shift_status;
 // 键盘中断处理程序
 void keyboard_callback(pt_regs *regs) {
     uint16_t scancode = inb(KBD_BUF_PORT);
+    printk("keyboard_callback %x\n", scancode);
+    
     uint16_t shift = shift_status;
 
     uint8_t index = (scancode &= 0x00ff);  // 将扫描码的高字节置0,主要是针对高字节是e0的扫描码.
@@ -110,8 +112,6 @@ void keyboard_callback(pt_regs *regs) {
     if (cur_char) {
         shift_status = FALSE;
         printk_color(rc_black, rc_red, "keyboard_callback %c\n", cur_char);
-    } else {
-        printk("keyboard_callback %x\n", scancode);
     }
     if (scancode == shift_l_make || scancode == shift_r_make) {
         shift_status = TRUE;
