@@ -4,7 +4,6 @@
 #include "idt.h"
 
 #define KBD_BUF_PORT 0x60 // 键盘 buffer 寄存器端口号为 0x60
-static bool shift_status
 
 /* 用转义字符定义部分控制字符 */
 #define esc        '\033'     // 八进制表示字符,也可以用十六进制'\x1b'
@@ -99,6 +98,7 @@ static char keymap[][2] = {
         {' ',  ' '},
         {caps_lock_char, caps_lock_char}
 };
+static uint16_t shift_status;
 
 // 键盘中断处理程序
 void keyboard_callback(pt_regs *regs) {
