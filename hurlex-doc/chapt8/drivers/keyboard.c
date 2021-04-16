@@ -98,24 +98,26 @@ static char keymap[][2] = {
         {' ',  ' '},
         {caps_lock_char, caps_lock_char}
 };
-static uint16_t shift_status;
+static uint16_t shift_status = FALSE;
 
 // 键盘中断处理程序
 void keyboard_callback(pt_regs *regs) {
-    uint16_t scancode = inb(KBD_BUF_PORT);
-    // 按键弹起不做处理
-    if (scancode >= 0x80) {
-        return;
-    }
+    uint16_t scan_code = inb(KBD_BUF_PORT);
+    uint16_t shift = shift_status;
+
     // 是否按下了shift键
-    if (scancode == shift_l_make || scancode == shift_r_make) {
+    if (scan_code == shift_l_make || scan_code == shift_r_make) {
         shift_status = TRUE;
         return;
     }
-    uint16_t shift = shift_status;
     shift_status = FALSE;
 
-    uint8_t index = (scancode &= 0x00ff);  // 将扫描码的高字节置0,主要是针对高字节是e0的扫描码.
+    // 按键弹起不做处理
+    if (scan_code >= 0x80) {
+        return;
+    }
+
+    uint8_t index = (scan_code &= 0x00ff);  // 将扫描码的高字节置0，主要是针对高字节是e0的扫描码.
     char cur_char = keymap[index][shift];  // 在数组中找到对应的字符
     if (cur_char) {
         printk_color(rc_black, rc_red, "keyboard_callback %c\n", cur_char);
