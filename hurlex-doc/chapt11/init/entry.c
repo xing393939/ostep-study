@@ -101,7 +101,7 @@ void kern_init()
 	init_pmm();
 	init_vmm();
 	init_heap();
-    show_memory_map()
+    show_memory_map();
 
 	printk_color(rc_black, rc_red, "\nThe Count of Physical Memory Page is: %u\n\n", phy_page_count);
 
