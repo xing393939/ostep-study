@@ -25,7 +25,7 @@
 #include "vmm.h"
 
 // 内核初始化函数
-int kern_init();
+void kern_init();
 
 // 开启分页机制之后的内核栈
 char kern_stack[STACK_SIZE];
@@ -75,7 +75,7 @@ __attribute__((section(".init.text"))) void kern_entry()
     kern_init();
 }
 
-int kern_init()
+void kern_init()
 {
 	init_debug();
 	init_gdt();
@@ -110,6 +110,6 @@ int kern_init()
 	allc_addr = pmm_alloc_page();
 	printk_color(rc_black, rc_light_brown, "Alloc Physical Addr: 0x%08X\n", allc_addr);
 
-	return 0;
+	while(1);
 }
 
