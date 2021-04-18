@@ -44,6 +44,8 @@ void show_memory_map()
 			(uint32_t)mmap->length_high, (uint32_t)mmap->length_low,
 			(uint32_t)mmap->type);
 	}
+    printk("pmm_stack[0]: 0x%X\n", pmm_stack[0]);
+    printk("pmm_stack[pmm_stack_top]: 0x%X\n", pmm_stack[pmm_stack_top]);
 }
 
 void init_pmm()
