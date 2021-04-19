@@ -31,9 +31,9 @@ uint8_t inb(uint16_t port);
 uint16_t inw(uint16_t port);
 
 // 开启中断
-inline void enable_intr();
+void enable_intr();
 
 // 关闭中断
-inline void disable_intr();
+void disable_intr();
 
 #endif // INCLUDE_COMMON_H_
