@@ -58,6 +58,20 @@ int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
 	// Your code here.
+    uint32_t ebp = read_ebp();
+    #define TO_INT(x)  *((uint32_t*)(x))
+    while (ebp) {
+        // ebp f0109e58  eip f0100a62  args 00000001 f0109e80 f0109e98 f0100ed2 00000031
+        cprintf("ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n",
+                TO_INT(ebp),          /*ebp*/
+                TO_INT((ebp+4)),   /*eip*/
+                TO_INT((ebp+8)),   /*arg1*/
+                TO_INT((ebp+12)),  /*arg2*/
+                TO_INT((ebp+16)),  /*arg3*/
+                TO_INT((ebp+20)),  /*arg4*/
+                TO_INT((ebp+24))); /*arg5*/
+        ebp = TO_INT(ebp);
+    }
 	return 0;
 }
 
