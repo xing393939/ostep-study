@@ -99,9 +99,9 @@ void kern_init()
 	printk("kernel in memory used:   %d KB\n\n", (kern_end - kern_start) / 1024);
 	
 	init_pmm();
+    show_memory_map();
 	init_vmm();
 	init_heap();
-    show_memory_map();
 
 	printk_color(rc_black, rc_red, "\nThe Count of Physical Memory Page is: %u\n\n", phy_page_count);
 
