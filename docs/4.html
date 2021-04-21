@@ -233,6 +233,11 @@
 git clone https:<span class="hljs-comment">//pdos.csail.mit.edu/6.828/2018/jos.git lab</span>
 make
 make qemu-nox
+
+<span class="hljs-comment">//&#x6808;&#x7684;&#x8C03;&#x7528;&#xFF1A;</span>
+<span class="hljs-comment">//1. main&#x8C03;&#x7528;A&#xFF0C;A&#x8C03;&#x7528;B</span>
+<span class="hljs-comment">//2. main&#x8C03;&#x7528;A&#x4E4B;&#x524D;&#x5148;&#x538B;&#x5165;&#x53C2;&#x6570;3&#x3001;&#x53C2;&#x6570;2&#x3001;&#x53C2;&#x6570;1&#xFF0C;&#x538B;&#x5165;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;&#x8DF3;&#x8F6C;&#x5230;A</span>
+<span class="hljs-comment">//3. A&#x6267;&#x884C;&#xFF1A;&#x6B64;&#x65F6;&#x5BC4;&#x5B58;&#x5668;ebp&#x4ECD;&#x7136;&#x662F;&#x4E0A;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x7684;ebp&#xFF08;&#x5373;main&#x51FD;&#x6570;&#x7684;ebp&#xFF09;&#xFF0C;&#x628A;ebp&#x538B;&#x5165;&#x6808;&#x4E2D;&#xFF0C;&#x8BA9;ebp=&#x5F53;&#x524D;&#x7684;esp</span>
 </code></pre>
 
                                 
@@ -273,7 +278,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-20T09:41:20.759Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-20T09:41:47.770Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-21T03:14:52.911Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-21T03:15:19.262Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
