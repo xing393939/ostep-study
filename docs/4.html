@@ -228,6 +228,34 @@
 <li>(qemu) info mem&#xFF1A;&#x6620;&#x5C04;&#x7684;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x548C;&#x6743;&#x9650;&#xFF08;ef7c0000-ef800000 00040000 urw &#x8868;&#x793A;0xef7c0000 &#x5230; 0xef800000 &#x957F;&#x5EA6;0x40000&#x5B57;&#x8282;&#x7684;&#x5185;&#x5B58;&#x6743;&#x9650;&#xFF0C;u&#x7528;&#x6237;&#x6001;&#xFF0C;r&#x8BFB;&#xFF0C;w&#x5199;&#xFF09;</li>
 </ol>
 <h4 id="&#x5B9E;&#x9A8C;1">&#x5B9E;&#x9A8C;1</h4>
+<ol>
+<li>&#x5BF9;&#x6BD4;&#x300A;x86&#x67B6;&#x6784;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5185;&#x6838;&#x7684;&#x5B9E;&#x73B0;&#x300B;&#xFF0C;&#x542F;&#x52A8;&#x5206;&#x9875;&#x7684;&#x65B9;&#x5F0F;&#x5F88;&#x7C7B;&#x4F3C;</li>
+<li>obj/kern/kernel.img&#x7684;&#x751F;&#x6210;&#x811A;&#x672C;&#x5728;&#xFF1A;kern/Makefrag<ul>
+<li>obj/kern/kernel.img&#x7B2C;&#x4E00;&#x4E2A;&#x6247;&#x533A;&#x653E;&#xFF1A;obj/boot/boot<ul>
+<li>&#x6E90;&#x6587;&#x4EF6;&#xFF1A;boot/boot.S&#xFF0C;&#x5F00;&#x542F;A20&#xFF0C;&#x5F00;&#x542F;&#x4FDD;&#x62A4;&#x6A21;&#x5F0F;</li>
+<li>&#x6E90;&#x6587;&#x4EF6;&#xFF1A;boot/main.c&#xFF0C;&#x4ECE;&#x78C1;&#x76D8;&#x8BFB;&#x53D6;&#x5185;&#x6838;&#x6587;&#x4EF6;&#x5230;0x10000&#x5904;&#xFF0C;&#x89E3;&#x6790;elf&#xFF0C;&#x8DF3;&#x8F6C;&#x5230;ELFHDR-&gt;e_entry</li>
+</ul>
+</li>
+<li>obj/kern/kernel.img&#x7B2C;&#x4E8C;&#x4E2A;&#x6247;&#x533A;&#x8D77;&#xFF1A;obj/kern/kernel</li>
+</ul>
+</li>
+<li>&#x542F;&#x52A8;&#x5206;&#x9875;&#x524D;&#xFF08;&#x73B0;&#x72B6;&#xFF09;<ul>
+<li>&#x5185;&#x6838;&#x6587;&#x4EF6;&#x7684;&#x865A;&#x62DF;&#x5730;&#x5740;&#x90FD;&#x662F;&#x4ECE;0xF000000&#x8D77;</li>
+</ul>
+</li>
+<li>&#x542F;&#x52A8;&#x5206;&#x9875;&#x524D;&#xFF08;kern/entrypgdir.c&#xFF0C;&#x5B9A;&#x4E49;&#x9875;&#x76EE;&#x5F55;&#x548C;&#x9875;&#x8868;&#xFF09;<ul>
+<li>&#x865A;&#x62DF;0~4M&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;0~4M</li>
+<li>&#x865A;&#x62DF;3.75G&#x5F00;&#x59CB;&#x7684;0~4M&#xFF0C;&#x4ECD;&#x7136;&#x5BF9;&#x5E94;&#x7269;&#x7406;0~4M</li>
+</ul>
+</li>
+<li>&#x542F;&#x52A8;&#x5206;&#x9875;&#xFF08;kern/entry.S&#xFF09;<ul>
+<li>&#x6B64;&#x6587;&#x4EF6;&#x662F;&#x5185;&#x6838;&#x7684;&#x5165;&#x53E3;&#x6267;&#x884C;&#x4F4D;&#x7F6E;&#xFF0C;&#x7531;boot/main.c&#x8BFB;&#x53D6;elf&#x8DF3;&#x8F6C;&#x800C;&#x6765;</li>
+<li>&#x7531;&#x4E8E;&#x865A;&#x62DF;&#x5730;&#x5740;&#x90FD;&#x662F;&#x4ECE;0xF000000&#x8D77;&#xFF0C;&#x672A;&#x542F;&#x52A8;&#x5206;&#x9875;&#xFF0C;&#x6240;&#x4EE5;&#x5730;&#x5740;&#x90FD;&#x9700;&#x8981;&#x51CF;0xF000000</li>
+<li>&#x6B64;&#x6587;&#x4EF6;&#x7684;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x8BBE;&#x7F6E;kern/entrypgdir.c&#x5B9A;&#x4E49;&#x7684;&#x9875;&#x76EE;&#x5F55;&#x548C;&#x9875;&#x8868;&#xFF0C;&#x5F00;&#x542F;&#x5206;&#x9875;</li>
+<li>&#x6700;&#x540E;&#x8DF3;&#x8F6C;&#x5230;kern/init.c&#x6267;&#x884C;i386_init()</li>
+</ul>
+</li>
+</ol>
 <pre><code class="lang-c"><span class="hljs-comment">// &#x62A5;&#x9519;&#xFF1A;obj/lib/libjos.a(printfmt.o): In function printnum</span>
 <span class="hljs-comment">// &#x4FEE;&#x590D;&#xFF1A;sudo apt-get install gcc-multilib</span>
 git clone https:<span class="hljs-comment">//pdos.csail.mit.edu/6.828/2018/jos.git lab</span>
@@ -239,6 +267,20 @@ make qemu-nox
 <span class="hljs-comment">//2. main&#x8C03;&#x7528;A&#x4E4B;&#x524D;&#x5148;&#x538B;&#x5165;&#x53C2;&#x6570;3&#x3001;&#x53C2;&#x6570;2&#x3001;&#x53C2;&#x6570;1&#xFF0C;&#x538B;&#x5165;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;&#x8DF3;&#x8F6C;&#x5230;A</span>
 <span class="hljs-comment">//3. A&#x6267;&#x884C;&#xFF1A;&#x6B64;&#x65F6;&#x5BC4;&#x5B58;&#x5668;ebp&#x4ECD;&#x7136;&#x662F;&#x4E0A;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x7684;ebp&#xFF08;&#x5373;main&#x51FD;&#x6570;&#x7684;ebp&#xFF09;&#xFF0C;&#x628A;ebp&#x538B;&#x5165;&#x6808;&#x4E2D;&#xFF0C;&#x8BA9;ebp=&#x5F53;&#x524D;&#x7684;esp</span>
 </code></pre>
+<h4 id="&#x5B9E;&#x9A8C;2">&#x5B9E;&#x9A8C;2</h4>
+<ol>
+<li>&#x5168;&#x5C40;&#x53D8;&#x91CF;edata&#xFF1A;bbs&#x6BB5;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;</li>
+<li>&#x5168;&#x5C40;&#x53D8;&#x91CF;end&#xFF1A;bbs&#x6BB5;&#x7ED3;&#x675F;&#x4F4D;&#x7F6E;</li>
+<li>&#x5168;&#x5C40;&#x53D8;&#x91CF;npages&#xFF1A;&#x5185;&#x5B58;&#x7684;&#x603B;&#x9875;&#x6570;</li>
+<li>&#x5168;&#x5C40;&#x53D8;&#x91CF;npages_basemem&#xFF1A;&#x5DF2;&#x7528;&#x5185;&#x5B58;&#x7684;&#x9875;&#x6570;</li>
+<li>void * boot_alloc(uint32 n)&#xFF1A;&#x7269;&#x7406;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#xFF08;&#x4EC5;&#x7528;&#x4E8E;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x521D;&#x59CB;&#x5316;&#x524D;&#xFF09;&#xFF0C;&#x771F;&#x6B63;&#x7684;&#x7269;&#x7406;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#x662F;page_alloc</li>
+<li>mem_init()&#xFF1A;&#x9875;&#x8868;&#x521D;&#x59CB;&#x5316;npages&#x6761;item<ul>
+<li>page_init()</li>
+</ul>
+</li>
+<li>PageInfo *page_alloc(int alloc_flags)</li>
+<li>page_free(PageInfo *pp)</li>
+</ol>
 
                                 
                                 </section>
@@ -278,7 +320,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-21T07:45:07.322Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-21T07:45:29.649Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-22T10:55:55.924Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-22T10:56:29.447Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
