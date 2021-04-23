@@ -102,8 +102,13 @@ boot_alloc(uint32_t n)
 	// to a multiple of PGSIZE.
 	//
 	// LAB 2: Your code here.
-
-	return NULL;
+    if (0 == n) {
+        return nextfree;
+    }
+    n = ROUNDUP(n, PGSIZE);
+    result = nextfree;
+    nextfree += n;
+    return result;
 }
 
 // Set up a two-level page table:
@@ -123,9 +128,6 @@ mem_init(void)
 
 	// Find out how much memory the machine has (npages & npages_basemem).
 	i386_detect_memory();
-
-	// Remove this line when you're ready to test this function.
-	panic("mem_init: This function is not finished\n");
 
 	//////////////////////////////////////////////////////////////////////
 	// create initial page directory.
@@ -148,7 +150,9 @@ mem_init(void)
 	// array.  'npages' is the number of physical pages in memory.  Use memset
 	// to initialize all fields of each struct PageInfo to 0.
 	// Your code goes here:
-
+    n = sizeof(struct PageInfo) * npages;
+    pages = (struct PageInfo*)boot_alloc(n);
+    memset(pages, 0, n);
 
 	//////////////////////////////////////////////////////////////////////
 	// Now that we've allocated the initial kernel data structures, we set
@@ -252,11 +256,26 @@ page_init(void)
 	// NB: DO NOT actually touch the physical memory corresponding to
 	// free pages!
 	size_t i;
-	for (i = 0; i < npages; i++) {
-		pages[i].pp_ref = 0;
-		pages[i].pp_link = page_free_list;
-		page_free_list = &pages[i];
-	}
+    // 这里采用的思路是：凡是不能被分配的内存页，都不加到链表里面。
+    // 只处理可以被使用的内存页。
+    assert(!page_free_list);
+    // 1. page 0是要被用来做实模式的IDT BIOS数据结构，尽管从来不会用，以后也不会用
+    //    这不是浪费么。不管了。
+    // 2. 接下来的[PGSIZE, npages_basemem * PGSIZE)是可用的。
+    for (i = 1; i < npages_basemem; i++) {
+        pages[i].pp_ref = 0;
+        pages[i].pp_link = page_free_list;
+        page_free_list = &pages[i];
+    }
+    // 3. IO空洞，绝对不能使用。
+    //    链表直接跳过。不管。
+    // 4. 直接找到kernel内存的尾巴
+    //    注意这里取了PADDR之后要除PGSIZE.
+    for (i = PADDR(boot_alloc(0))/PGSIZE; i < npages; i++) {
+        pages[i].pp_ref = 0;
+        pages[i].pp_link = page_free_list;
+        page_free_list = &pages[i];
+    }
 }
 
 //
@@ -275,7 +294,16 @@ struct PageInfo *
 page_alloc(int alloc_flags)
 {
 	// Fill this function in
-	return 0;
+    struct PageInfo *ret = page_free_list;
+    if (!page_free_list) {
+        return NULL;
+    }
+    page_free_list = ret->pp_link;
+    ret->pp_link = NULL;
+    if (alloc_flags & ALLOC_ZERO) {
+        memset(page2kva(ret), 0, PGSIZE);
+    }
+    return ret;
 }
 
 //
@@ -288,6 +316,10 @@ page_free(struct PageInfo *pp)
 	// Fill this function in
 	// Hint: You may want to panic if pp->pp_ref is nonzero or
 	// pp->pp_link is not NULL.
+    assert(!pp->pp_ref);
+    assert(!pp->pp_link);
+    pp->pp_link = page_free_list;
+    page_free_list = pp;
 }
 
 //
