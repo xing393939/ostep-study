@@ -275,8 +275,8 @@ make qemu-nox
 <li>&#x5168;&#x5C40;&#x53D8;&#x91CF;npages_basemem&#xFF1A;&#x5DF2;&#x7528;&#x5185;&#x5B58;&#x7684;&#x9875;&#x6570;</li>
 <li>void * boot_alloc(uint32 n)&#xFF1A;&#x7269;&#x7406;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#xFF08;&#x4EC5;&#x7528;&#x4E8E;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x521D;&#x59CB;&#x5316;&#x524D;&#xFF09;&#xFF0C;&#x771F;&#x6B63;&#x7684;&#x7269;&#x7406;&#x5185;&#x5B58;&#x5206;&#x914D;&#x5668;&#x662F;page_alloc</li>
 <li>mem_init()&#xFF1A;<ul>
-<li>kern_pgdir&#xFF1A;&#x9875;&#x76EE;&#x5F55;&#x8868;&#xFF0C;&#x5206;&#x914D;1&#x9875;</li>
-<li>pages&#xFF1A;&#x7269;&#x7406;&#x9875;&#x8868;&#xFF0C;&#x5206;&#x914D;npages&#x9875;</li>
+<li>kern_pgdir&#xFF1A;&#x9875;&#x76EE;&#x5F55;&#x8868;&#xFF0C;&#x5206;&#x914D;1&#x9875;&#x5185;&#x5B58;</li>
+<li>pages&#xFF1A;&#x7269;&#x7406;&#x9875;&#x8868;&#xFF0C;&#x5206;&#x914D;npages&#x9875;&#x5185;&#x5B58;</li>
 <li>page_init()&#xFF1A;&#x7269;&#x7406;&#x9875;&#x7528;&#x5355;&#x94FE;&#x8868;&#x5B9E;&#x73B0;&#x4E86;&#x540E;&#x8FDB;&#x5148;&#x51FA;&#x7684;&#x6808;&#xFF0C;&#x6BCF;&#x6B21;&#x5206;&#x914D;&#x7269;&#x7406;&#x9875;&#x5373;&#x662F;&#x51FA;&#x6808;</li>
 </ul>
 </li>
@@ -293,7 +293,8 @@ make qemu-nox
 <li>page_remove()&#xFF1A;&#x53D6;&#x6D88;&#x865A;&#x62DF;&#x5730;&#x5740;&#x4E0E;&#x7269;&#x7406;&#x5730;&#x5740;&#x7684;&#x5173;&#x8054;</li>
 <li>page_insert()&#xFF1A;</li>
 <li>&#x4E09;&#x6B21;boot_map_region()&#xFF1A;<ul>
-<li>0xef000000~0xef400000&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x11b000~0x51b000&#xFF0C;&#x5171;4M&#xFF0C;&#x5B58;&#x7269;&#x7406;&#x9875;&#x8868;</li>
+<li>0xef000000~0xef400000&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x11b000~0x51b000&#xFF0C;&#x5171;4M&#xFF0C;&#x5B58;&#x7269;&#x7406;&#x9875;&#x8868;pages&#xFF0C;&#x6240;&#x4EE5;&#x7269;&#x7406;&#x5185;&#x5B58;&#x6700;&#x5927;&#x652F;&#x6301;0x400000 / 6 * 4K &#x2248; 2.7G</li>
+<li>0xef400000~0xef800000&#xFF08;&#x672A;&#x6620;&#x5C04;&#xFF09;&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UVPT&#xFF08;User Virtual Page Table&#xFF09;&#xFF0C;&#x5171;4M</li>
 <li>0xefff8000~0xf0000000&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x10e000~0x117000&#xFF0C;&#x5171;32K&#xFF0C;&#x5B58;&#x5185;&#x6838;&#x6808;</li>
 <li>0xf0000000~0xffffffff&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x0000~0x10000000&#xFF0C;&#x5171;256M</li>
 </ul>
@@ -338,7 +339,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-23T07:49:45.096Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-23T07:50:15.152Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-23T08:31:42.845Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-23T08:32:18.178Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
