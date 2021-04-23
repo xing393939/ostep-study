@@ -232,7 +232,7 @@
 <li>&#x5BF9;&#x6BD4;&#x300A;x86&#x67B6;&#x6784;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5185;&#x6838;&#x7684;&#x5B9E;&#x73B0;&#x300B;&#xFF0C;&#x542F;&#x52A8;&#x5206;&#x9875;&#x7684;&#x65B9;&#x5F0F;&#x5F88;&#x7C7B;&#x4F3C;</li>
 <li>obj/kern/kernel.img&#x7684;&#x751F;&#x6210;&#x811A;&#x672C;&#x5728;&#xFF1A;kern/Makefrag<ul>
 <li>obj/kern/kernel.img&#x7B2C;&#x4E00;&#x4E2A;&#x6247;&#x533A;&#x653E;&#xFF1A;obj/boot/boot<ul>
-<li>&#x6E90;&#x6587;&#x4EF6;&#xFF1A;boot/boot.S&#xFF0C;&#x5F00;&#x542F;A20&#xFF0C;&#x5F00;&#x542F;&#x4FDD;&#x62A4;&#x6A21;&#x5F0F;</li>
+<li>&#x6E90;&#x6587;&#x4EF6;&#xFF1A;boot/boot.S&#xFF0C;&#x5F00;&#x542F;A20&#xFF0C;&#x5F00;&#x542F;&#x4FDD;&#x62A4;&#x6A21;&#x5F0F;&#xFF0C;gdtr&#x6307;&#x5411;gdt</li>
 <li>&#x6E90;&#x6587;&#x4EF6;&#xFF1A;boot/main.c&#xFF0C;&#x4ECE;&#x78C1;&#x76D8;&#x8BFB;&#x53D6;&#x5185;&#x6838;&#x6587;&#x4EF6;&#x5230;0x10000&#x5904;&#xFF0C;&#x89E3;&#x6790;elf&#xFF0C;&#x8DF3;&#x8F6C;&#x5230;ELFHDR-&gt;e_entry</li>
 </ul>
 </li>
@@ -267,7 +267,7 @@ make qemu-nox
 <span class="hljs-comment">//2. main&#x8C03;&#x7528;A&#x4E4B;&#x524D;&#x5148;&#x538B;&#x5165;&#x53C2;&#x6570;3&#x3001;&#x53C2;&#x6570;2&#x3001;&#x53C2;&#x6570;1&#xFF0C;&#x538B;&#x5165;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#xFF0C;&#x8DF3;&#x8F6C;&#x5230;A</span>
 <span class="hljs-comment">//3. A&#x6267;&#x884C;&#xFF1A;&#x6B64;&#x65F6;&#x5BC4;&#x5B58;&#x5668;ebp&#x4ECD;&#x7136;&#x662F;&#x4E0A;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x7684;ebp&#xFF08;&#x5373;main&#x51FD;&#x6570;&#x7684;ebp&#xFF09;&#xFF0C;&#x628A;ebp&#x538B;&#x5165;&#x6808;&#x4E2D;&#xFF0C;&#x8BA9;ebp=&#x5F53;&#x524D;&#x7684;esp</span>
 </code></pre>
-<h4 id="&#x5B9E;&#x9A8C;2">&#x5B9E;&#x9A8C;2</h4>
+<h4 id="&#x5B9E;&#x9A8C;2-&#x7269;&#x7406;&#x5185;&#x5B58;">&#x5B9E;&#x9A8C;2 &#x7269;&#x7406;&#x5185;&#x5B58;</h4>
 <ol>
 <li>&#x5168;&#x5C40;&#x53D8;&#x91CF;edata&#xFF1A;bbs&#x6BB5;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;</li>
 <li>&#x5168;&#x5C40;&#x53D8;&#x91CF;end&#xFF1A;bbs&#x6BB5;&#x7ED3;&#x675F;&#x4F4D;&#x7F6E;</li>
@@ -277,11 +277,19 @@ make qemu-nox
 <li>mem_init()&#xFF1A;<ul>
 <li>kern_pgdir&#xFF1A;&#x9875;&#x76EE;&#x5F55;&#x8868;&#xFF0C;&#x5206;&#x914D;1&#x9875;</li>
 <li>pages&#xFF1A;&#x7269;&#x7406;&#x9875;&#x8868;&#xFF0C;&#x5206;&#x914D;npages&#x9875;</li>
-<li>page_init()</li>
+<li>page_init()&#xFF1A;&#x7269;&#x7406;&#x9875;&#x7528;&#x5355;&#x94FE;&#x8868;&#x5B9E;&#x73B0;&#x4E86;&#x540E;&#x8FDB;&#x5148;&#x51FA;&#x7684;&#x6808;&#xFF0C;&#x6BCF;&#x6B21;&#x5206;&#x914D;&#x7269;&#x7406;&#x9875;&#x5373;&#x662F;&#x51FA;&#x6808;</li>
 </ul>
 </li>
-<li>PageInfo *page_alloc(int alloc_flags)</li>
-<li>page_free(PageInfo *pp)</li>
+<li>PageInfo *page_alloc(int alloc_flags)&#xFF1A;&#x51FA;&#x6808;&#xFF08;&#x83B7;&#x53D6;&#x7269;&#x7406;&#x5730;&#x5740;&#x8FD8;&#x9700;&#x8981;&#x8C03;&#x7528;page2pa&#xFF09;</li>
+<li>page_free(PageInfo *pp)&#xFF1A;&#x5165;&#x6808;&#xFF0C;page_free_list&#x6307;&#x5411;&#x6808;&#x9876;</li>
+</ol>
+<h4 id="&#x5B9E;&#x9A8C;2-&#x865A;&#x62DF;&#x5185;&#x5B58;">&#x5B9E;&#x9A8C;2 &#x865A;&#x62DF;&#x5185;&#x5B58;</h4>
+<ol>
+<li>pgdir_walk()&#xFF1A;&#x901A;&#x8FC7;va&#x6765;&#x67E5;&#x9875;&#x8868;&#x9879;&#xFF0C;&#x9875;&#x8868;&#x9879;&#x4E0D;&#x5B58;&#x5728;&#x5219;&#x521B;&#x5EFA;</li>
+<li>bootmapregion()&#xFF1A;&#x5185;&#x5B58;&#x6620;&#x5C04;&#xFF0C;&#x4ECE;va&#x5904;&#x7533;&#x8BF7;n&#x5B57;&#x8282;&#x5185;&#x5B58;</li>
+<li>page_lookup()&#xFF1A;&#x901A;&#x8FC7;va&#x627E;&#x5230;pa</li>
+<li>page_remove()&#xFF1A;&#x53D6;&#x6D88;&#x865A;&#x62DF;&#x5730;&#x5740;&#x4E0E;&#x7269;&#x7406;&#x5730;&#x5740;&#x7684;&#x5173;&#x8054;</li>
+<li>page_insert()&#xFF1A;</li>
 </ol>
 
                                 
@@ -322,7 +330,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-23T03:13:38.562Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-23T03:14:10.948Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-23T06:22:01.396Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-23T06:22:31.622Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
