@@ -252,7 +252,7 @@
 <li>&#x5185;&#x6838;&#x6587;&#x4EF6;&#x7684;&#x865A;&#x62DF;&#x5730;&#x5740;&#x90FD;&#x662F;&#x4ECE;0xF000000&#x8D77;</li>
 </ul>
 </li>
-<li>&#x542F;&#x52A8;&#x5206;&#x9875;&#x524D;&#xFF08;kern/entrypgdir.c&#xFF0C;&#x5B9A;&#x4E49;&#x9875;&#x76EE;&#x5F55;&#x548C;&#x9875;&#x8868;&#xFF09;<ul>
+<li>&#x542F;&#x52A8;&#x5206;&#x9875;&#x524D;&#xFF08;kern/entrypgdir.c&#xFF0C;&#x5B9A;&#x4E49;&#x9875;&#x76EE;&#x5F55;entry_pgdir&#x548C;&#x9875;&#x8868;entry_pgtable&#xFF09;<ul>
 <li>&#x865A;&#x62DF;0~4M&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;0~4M</li>
 <li>&#x865A;&#x62DF;3.75G&#x5F00;&#x59CB;&#x7684;0~4M&#xFF0C;&#x4ECD;&#x7136;&#x5BF9;&#x5E94;&#x7269;&#x7406;0~4M</li>
 </ul>
@@ -296,19 +296,41 @@ make qemu-nox
 <ol>
 <li>&#x5168;&#x5C40;&#x5E38;&#x91CF;UPAGES&#xFF1A;User Pages&#xFF0C;&#x8BA9;&#x7528;&#x6237;&#x6001;&#x4E5F;&#x80FD;&#x8BBF;&#x95EE;&#x7269;&#x7406;&#x9875;&#x8868;</li>
 <li>&#x5185;&#x6838;&#x6808;&#x5927;&#x5C0F;8&#x4E2A;&#x7269;&#x7406;&#x9875;&#xFF0C;&#x5373;32K</li>
+<li>&#x4E94;&#x4E2A;&#x51FD;&#x6570;&#xFF1A;<ul>
 <li>pgdir_walk()&#xFF1A;&#x901A;&#x8FC7;va&#x6765;&#x67E5;&#x9875;&#x8868;&#x9879;&#xFF0C;&#x9875;&#x8868;&#x9879;&#x4E0D;&#x5B58;&#x5728;&#x5219;&#x521B;&#x5EFA;</li>
 <li>boot_map_region()&#xFF1A;&#x5185;&#x5B58;&#x6620;&#x5C04;&#xFF0C;&#x4ECE;va&#x5904;&#x7533;&#x8BF7;n&#x5B57;&#x8282;&#x5185;&#x5B58;</li>
 <li>page_lookup()&#xFF1A;&#x901A;&#x8FC7;va&#x627E;&#x5230;pa</li>
 <li>page_remove()&#xFF1A;&#x53D6;&#x6D88;&#x865A;&#x62DF;&#x5730;&#x5740;&#x4E0E;&#x7269;&#x7406;&#x5730;&#x5740;&#x7684;&#x5173;&#x8054;</li>
 <li>page_insert()&#xFF1A;</li>
+</ul>
+</li>
+<li>jos&#x628A;&#x6574;&#x4E2A;&#x7269;&#x7406;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x5212;&#x5206;&#x6210;&#x4E09;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;<ul>
+<li>&#x4ECE;0x00000~0xA0000&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x53EB;&#x505A;basemem&#xFF0C;&#x662F;&#x53EF;&#x7528;&#x7684;&#x3002;</li>
+<li>&#x4ECE;0xA0000~0x100000&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x53EB;&#x505A;IO hole&#xFF0C;&#x662F;&#x4E0D;&#x53EF;&#x7528;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x88AB;&#x7528;&#x6765;&#x5206;&#x914D;&#x7ED9;&#x5916;&#x90E8;&#x8BBE;&#x5907;&#x4E86;&#x3002;</li>
+<li>&#x4ECE;0x100000~0x&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x53EB;&#x505A;extmem&#xFF0C;&#x662F;&#x53EF;&#x7528;&#x7684;&#xFF0C;&#x8FD9;&#x662F;&#x6700;&#x91CD;&#x8981;&#x7684;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x3002;</li>
+</ul>
+</li>
 <li>&#x4E09;&#x6B21;boot_map_region()&#xFF1A;<ul>
-<li>0xef000000~0xef400000&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x11b000~0x51b000&#xFF0C;&#x5171;4M&#xFF0C;&#x5B58;&#x7269;&#x7406;&#x9875;&#x8868;pages&#xFF0C;&#x6240;&#x4EE5;&#x7269;&#x7406;&#x5185;&#x5B58;&#x6700;&#x5927;&#x652F;&#x6301;0x400000 / 6 * 4K &#x2248; 2.7G</li>
-<li>0xef400000~0xef800000&#xFF08;&#x672A;&#x6620;&#x5C04;&#xFF09;&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UVPT&#xFF08;User Virtual Page Table&#xFF09;&#xFF0C;&#x5171;4M</li>
-<li>0xefff8000~0xf0000000&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x10e000~0x117000&#xFF0C;&#x5171;32K&#xFF0C;&#x5B58;&#x5185;&#x6838;&#x6808;</li>
-<li>0xf0000000~0xffffffff&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x0000~0x10000000&#xFF0C;&#x5171;256M</li>
+<li>0xef000000~0xef400000&#xFF08;boot_map_region&#xFF09;&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x11b000~0x51b000&#xFF0C;&#x5171;4M&#xFF0C;&#x5B58;&#x7269;&#x7406;&#x9875;&#x8868;pages&#xFF0C;&#x6240;&#x4EE5;&#x7269;&#x7406;&#x5185;&#x5B58;&#x6700;&#x5927;&#x652F;&#x6301;0x400000 / 8 * 4K = 2G</li>
+<li>UTOP~ULIM&#xFF0C;&#x5171;12M<ul>
+<li>UTOP = 0xeec00000&#xFF1B;</li>
+<li>ULIM = 0xef800000&#xFF1B;ULIM&#x4EE5;&#x4E0A;&#x662F;&#x5185;&#x6838;&#x7A7A;&#x95F4;&#xFF0C;&#x7528;&#x6237;&#x6001;&#x6CA1;&#x6709;&#x6743;&#x9650;&#x8BBF;&#x95EE;</li>
+<li>UTOP~ULIM&#xFF0C;&#x662F;&#x5185;&#x6838;&#x548C;&#x7528;&#x6237;&#x6001;&#x5171;&#x6709;&#xFF0C;&#x53EA;&#x8BFB;</li>
+<li>0xef400000~0xef800000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UVPT&#xFF08;Cur Page Table&#xFF09;&#xFF0C;&#x5171;4M</li>
+<li>0xef000000~0xef400000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UPAGES&#xFF08;User Virtual Page Table&#xFF09;&#xFF0C;&#x5171;4M</li>
+<li>0xeec00000~0xef000000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UENV&#xFF08;User Environment&#xFF09;&#xFF0C;&#x5171;4M</li>
+</ul>
+</li>
+<li>UTOP~USTACKTOP&#xFF1B;&#x7528;&#x6237;&#x6001;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x6808;&#xFF0C;&#x5171;8K<ul>
+<li>USTACKTOP = 0xeebfe000&#xFF1B;&#x7528;&#x6237;&#x6001;&#x7684;&#x6808;&#x9876;</li>
+</ul>
+</li>
+<li>0xefff8000~0xf0000000&#xFF08;boot_map_region&#xFF09;&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x10e000~0x117000&#xFF0C;&#x5171;32K&#xFF0C;&#x5B58;&#x5185;&#x6838;&#x6808;</li>
+<li>0xf0000000~0xffffffff&#xFF08;boot_map_region&#xFF09;&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x0000~0x10000000&#xFF0C;&#x5171;256M</li>
 </ul>
 </li>
 </ol>
+<p><img src="../images/xv6-lab2.png" alt=""></p>
 
                                 
                                 </section>
@@ -348,7 +370,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-25T00:55:05.205Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-25T00:55:29.922Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-25T02:01:20.554Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-25T02:01:50.340Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
