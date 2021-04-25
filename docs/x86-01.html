@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>1.用qemu跑linux0.11和xv6 · GitBook</title>
+        <title>系统调用细节 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="2.html" />
+    <link rel="next" href="x86-02.html" />
     
-    
-    <link rel="prev" href="../" />
     
 
     </head>
@@ -104,7 +102,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.2" data-path="1.html">
+        <li class="chapter " data-level="1.2" data-path="1.html">
             
                 <a href="1.html">
             
@@ -170,7 +168,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="x86-01.html">
+        <li class="chapter active" data-level="1.6.1" data-path="x86-01.html">
             
                 <a href="x86-01.html">
             
@@ -244,7 +242,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >1.用qemu跑linux0.11和xv6</a>
+        <a href=".." >系统调用细节</a>
     </h1>
 </div>
 
@@ -259,37 +257,19 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h3 id="&#x7528;qemu&#x8DD1;linux011&#x548C;xv6">&#x7528;qemu&#x8DD1;linux0.11&#x548C;xv6</h3>
-<h3 id="&#x53C2;&#x8003;&#x8D44;&#x6599;">&#x53C2;&#x8003;&#x8D44;&#x6599;</h3>
-<ol>
-<li><a href="https://www.jianshu.com/p/03ab8791b363" target="_blank">xv6 &#x73AF;&#x5883;&#x642D;&#x5EFA;</a></li>
-<li><a href="https://www.jianshu.com/p/ab4fa7f12f06" target="_blank">GDB+Qemu&#x8C03;&#x8BD5;Linux-0.11&#x7684;&#x4EE3;&#x7801;</a></li>
-<li>&#x751F;&#x6210;&#x7684;&#x955C;&#x50CF;&#x5747;&#x53EF;&#x4EE5;&#x5728;Bochs-win32-2.6.11&#x4E0A;&#x8FD0;&#x884C;</li>
-</ol>
-<h3 id="&#x51C6;&#x5907;&#x5DE5;&#x4F5C;">&#x51C6;&#x5907;&#x5DE5;&#x4F5C;</h3>
-<ol>
-<li>Ubuntu 18.04.5 LTS&#xFF0C;&#x8F6F;&#x4EF6;&#x6E90;&#x662F;cn-northwest-1.ec2.archive.ubuntu.com</li>
-<li>&#x5B89;&#x88C5;&#x8F6F;&#x4EF6;&#xFF1A;<ul>
-<li>apt install g++&#xFF0C;&#x5305;&#x542B;gcc7.5</li>
-<li>apt install cmake</li>
-<li>apt install gdb</li>
-<li>apt install qemu</li>
+                                <h3 id="&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7EC6;&#x8282;">&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7EC6;&#x8282;</h3>
+<h4 id="&#x77E5;&#x8BC6;">&#x77E5;&#x8BC6;</h4>
+<ul>
+<li><a href="http://m.blog.chinaunix.net/uid-25739055-id-4105876.html" target="_blank">x86&#x5904;&#x7406;&#x5668;&#x4E2D;&#x7684;&#x7279;&#x6743;&#x7EA7;&#x68C0;&#x67E5;&#x53CA;Linux&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7684;&#x5B9E;&#x73B0;</a></li>
+<li>IDT&#x8868;&#x7684;item&#xFF1A;&#x6BB5;&#x9009;&#x62E9;&#x7B26; + &#x5904;&#x7406;&#x51FD;&#x6570;&#x4F4D;&#x7F6E;&#x504F;&#x79FB; + DPL</li>
+<li>GDT&#x8868;&#x7684;item&#xFF1A;&#x6BB5;&#x7684;&#x57FA;&#x5740;</li>
 </ul>
-</li>
-</ol>
-<h3 id="&#x8DD1;xv6">&#x8DD1;xv6</h3>
+<h4 id="&#x6B65;&#x9AA4;">&#x6B65;&#x9AA4;</h4>
 <ol>
-<li>git clone <a href="https://github.com/professordeng/xv6-expansion.git" target="_blank">https://github.com/professordeng/xv6-expansion.git</a></li>
-<li>make</li>
-<li>make fs.img</li>
-<li>make qemu-nox</li>
-</ol>
-<h3 id="&#x8DD1;linux011">&#x8DD1;linux0.11</h3>
-<ol>
-<li>git clone <a href="https://github.com/yuanxinyu/Linux-0.11.git" target="_blank">https://github.com/yuanxinyu/Linux-0.11.git</a></li>
-<li>make</li>
-<li>&#x4E0B;&#x8F7D;hdc-0.11.img</li>
-<li>qemu-system-i386 -m 512 -boot a -fda Image -hda hdc-0.11.img -nographic -curses</li>
+<li>int 80&#xFF1B;&#x7528;&#x6237;&#x6001;&#x53D1;&#x8D77;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x6B64;&#x65F6;CPL=3</li>
+<li>&#x627E;&#x5230;&#x5BF9;&#x5E94;IDT&#x8868;&#x7684;item&#xFF0C;&#x5176;&#x4E2D;DPL=3&#xFF0C;&#x6240;&#x4EE5;&#x6743;&#x9650;&#x68C0;&#x67E5;&#x901A;&#x8FC7;&#xFF0C;&#x83B7;&#x5F97;&#x6BB5;&#x9009;&#x62E9;&#x7B26;__KERNEL_CS&#xFF0C;&#x5904;&#x7406;&#x51FD;&#x6570;&#x4F4D;&#x7F6E;&#x504F;&#x79FB;system_call</li>
+<li>&#x56E0;&#x4E3A;__KERNEL_CS&#x4E2D;&#x7684;RPL=0&#xFF0C;&#x6240;&#x4EE5;&#x7279;&#x6743;&#x7EA7;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x6B64;&#x65F6;CPL=0</li>
+<li>&#x8DF3;&#x8F6C;&#x5230;<strong>KERNEL_CS: system_call&#x6267;&#x884C;&#xFF08;&#x5148;&#x901A;&#x8FC7;</strong>KERNEL_CS&#x5728;GDT&#x627E;&#x5230;&#x6BB5;&#x7684;&#x57FA;&#x5740;&#xFF09;</li>
 </ol>
 
                                 
@@ -318,12 +298,8 @@
 
             
                 
-                <a href="../" class="navigation navigation-prev " aria-label="Previous page: Introduction">
-                    <i class="fa fa-angle-left"></i>
-                </a>
                 
-                
-                <a href="2.html" class="navigation navigation-next " aria-label="Next page: 2.整体框架">
+                <a href="x86-02.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 如何进入用户态">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -334,7 +310,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"1.用qemu跑linux0.11和xv6","level":"1.2","depth":1,"next":{"title":"2.整体框架","level":"1.3","depth":1,"path":"docs/2.md","ref":"docs/2.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/1.md","mtime":"2021-04-25T03:24:44.431Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-25T03:25:14.744Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"系统调用细节","level":"1.6.1","depth":2,"next":{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},"previous":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-01.md","mtime":"2021-04-25T03:24:44.431Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-25T03:25:14.744Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

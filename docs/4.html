@@ -154,6 +154,64 @@
             
         </li>
     
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    5.x86操作系统细节
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="x86-01.html">
+            
+                <a href="x86-01.html">
+            
+                    
+                    系统调用细节
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="x86-02.html">
+            
+                <a href="x86-02.html">
+            
+                    
+                    如何进入用户态
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="x86-03.html">
+            
+                <a href="x86-03.html">
+            
+                    
+                    多核问题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
     
 
@@ -312,12 +370,17 @@ make qemu-nox
 </li>
 <li>&#x4E09;&#x6B21;boot_map_region()&#xFF1A;<ul>
 <li>0xef000000~0xef400000&#xFF08;boot_map_region&#xFF09;&#xFF0C;&#x5BF9;&#x5E94;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF1A;0x11b000~0x51b000&#xFF0C;&#x5171;4M&#xFF0C;&#x5B58;&#x7269;&#x7406;&#x9875;&#x8868;pages&#xFF0C;&#x6240;&#x4EE5;&#x7269;&#x7406;&#x5185;&#x5B58;&#x6700;&#x5927;&#x652F;&#x6301;0x400000 / 8 * 4K = 2G</li>
+<li>ULIM~KERNBASE&#xFF0C;&#x5171;8M<ul>
+<li>KERNBASE = 0xf0000000&#xFF1B;</li>
+<li>ULIM~KERNBASE&#xFF1B;&#x6BCF;&#x4E2A;cpu&#x5404;&#x6709;&#x4E00;&#x4E2A;&#x5185;&#x6838;&#x6808;</li>
+</ul>
+</li>
 <li>UTOP~ULIM&#xFF0C;&#x5171;12M<ul>
 <li>UTOP = 0xeec00000&#xFF1B;</li>
 <li>ULIM = 0xef800000&#xFF1B;ULIM&#x4EE5;&#x4E0A;&#x662F;&#x5185;&#x6838;&#x7A7A;&#x95F4;&#xFF0C;&#x7528;&#x6237;&#x6001;&#x6CA1;&#x6709;&#x6743;&#x9650;&#x8BBF;&#x95EE;</li>
 <li>UTOP~ULIM&#xFF0C;&#x662F;&#x5185;&#x6838;&#x548C;&#x7528;&#x6237;&#x6001;&#x5171;&#x6709;&#xFF0C;&#x53EA;&#x8BFB;</li>
-<li>0xef400000~0xef800000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UVPT&#xFF08;Cur Page Table&#xFF09;&#xFF0C;&#x5171;4M</li>
-<li>0xef000000~0xef400000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UPAGES&#xFF08;User Virtual Page Table&#xFF09;&#xFF0C;&#x5171;4M</li>
+<li>0xef400000~0xef800000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UVPT&#xFF08;Cur. Page Table&#xFF09;&#xFF0C;&#x5171;4M</li>
+<li>0xef000000~0xef400000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UPAGES&#xFF08;User Pages&#xFF09;&#xFF0C;&#x5171;4M</li>
 <li>0xeec00000~0xef000000&#xFF0C;&#x6B64;&#x7A7A;&#x95F4;&#x5C5E;&#x4E8E;UENV&#xFF08;User Environment&#xFF09;&#xFF0C;&#x5171;4M</li>
 </ul>
 </li>
@@ -370,7 +433,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-25T02:01:20.554Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-25T02:01:50.340Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-25T03:24:44.431Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-25T03:25:14.744Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
