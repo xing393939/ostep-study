@@ -247,7 +247,7 @@ page_fault_handler(struct Trapframe *tf)
 
 	// LAB 3: Your code here.
     // 怎么判断是内核模式， CPL位
-    if(tf->tf_cs & 3 == 0) {
+    if((tf->tf_cs & 3) == 0) {
         panic("page_fault in kernel mode, fault address %d\n", fault_va);
     }
     // We've already handled kernel-mode exceptions, so if we get here,
