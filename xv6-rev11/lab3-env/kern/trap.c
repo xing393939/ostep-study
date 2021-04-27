@@ -187,7 +187,7 @@ trap_dispatch(struct Trapframe *tf)
             return;
 		case T_SYSCALL:
 			if (tf->tf_regs.reg_eax >= NSYSCALLS)
-				return -E_INVAL;
+				return;
 			tf->tf_regs.reg_eax = syscall(
 				tf->tf_regs.reg_eax,
 				tf->tf_regs.reg_edx,
