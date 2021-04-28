@@ -284,6 +284,19 @@
 <li>&#x56E0;&#x4E3A;__KERNEL_CS&#x4E2D;&#x7684;RPL=0&#xFF0C;&#x6240;&#x4EE5;&#x7279;&#x6743;&#x7EA7;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x6B64;&#x65F6;CPL=0&#xFF08;&#x6B64;&#x6B65;&#x9AA4;&#x90FD;&#x662F;&#x786C;&#x4EF6;&#x6765;&#x5B8C;&#x6210;&#xFF09;</li>
 <li>&#x8DF3;&#x8F6C;&#x5230;__KERNEL_CS: system_call&#x6267;&#x884C;&#xFF08;&#x5148;&#x901A;&#x8FC7;__KERNEL_CS&#x5728;GDT&#x627E;&#x5230;&#x6BB5;&#x7684;&#x57FA;&#x5740;&#xFF09;</li>
 </ol>
+<h4 id="&#x7EC6;&#x8282;">&#x7EC6;&#x8282;</h4>
+<pre><code class="lang-c"><span class="hljs-comment">// &#x7528;&#x6237;&#x6001;</span>
+mov [num] %eax <span class="hljs-comment">// &#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;</span>
+mov [a1] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;1</span>
+mov [a2] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;2</span>
+mov [a3] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
+mov [a4] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
+mov [a5] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;4</span>
+<span class="hljs-keyword">int</span> <span class="hljs-number">48</span>         <span class="hljs-comment">/* &#x53D1;&#x8D77;&#x8C03;&#x7528;
+                * 
+                * 
+                */</span>
+</code></pre>
 
                                 
                                 </section>
@@ -323,7 +336,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"系统调用细节","level":"1.6.1","depth":2,"next":{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},"previous":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-01.md","mtime":"2021-04-28T07:27:27.502Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-28T07:27:59.728Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"系统调用细节","level":"1.6.1","depth":2,"next":{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},"previous":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-01.md","mtime":"2021-04-28T10:37:42.169Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-28T10:38:05.561Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

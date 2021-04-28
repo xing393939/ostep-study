@@ -411,12 +411,12 @@ make qemu-nox
 <ol>
 <li>&#x5168;&#x5C40;&#x5E38;&#x91CF;NENV&#xFF1A;&#x8FDB;&#x7A0B;&#x7684;&#x6700;&#x5927;&#x4E2A;&#x6570;&#xFF0C;&#x5199;&#x6B7B;1024&#x4E2A;</li>
 <li>&#x5168;&#x5C40;&#x53D8;&#x91CF;envs&#xFF1A;&#x8FDB;&#x7A0B;&#xFF0C;&#x5171;1024&#x4E2A;</li>
-<li>trap_init&#xFF1A;&#x521D;&#x59CB;&#x5316;IDT&#x8868;&#xFF0C;IDTR&#x6307;&#x5411;IDT&#x8868;<ul>
-<li>trap_init_percpu&#xFF1A;&#x521D;&#x59CB;&#x5316;TSS&#xFF08;&#x4EC5;&#x8BBE;&#x7F6E;esp0&#x548C;ss0&#xFF0C;&#x6BCF;&#x4E2A;cpu&#x4E00;&#x4E2A;&#xFF09;&#xFF0C;TR&#x6307;&#x5411;TSS</li>
-</ul>
-</li>
 <li>env_init&#xFF1A;&#x628A;envs&#x53D8;&#x6210;&#x5355;&#x94FE;&#x8868;&#xFF0C;envs&#x548C;env_free_list&#x90FD;&#x6307;&#x5411;&#x8868;&#x5934;<ul>
 <li>env_init_percpu&#xFF1A;&#x521D;&#x59CB;&#x5316;GDT&#x8868;&#xFF0C;&#x6BB5;&#x5BC4;&#x5B58;&#x5668;ES, DS, SS, CS</li>
+</ul>
+</li>
+<li>trap_init&#xFF1A;&#x521D;&#x59CB;&#x5316;IDT&#x8868;&#xFF0C;IDTR&#x6307;&#x5411;IDT&#x8868;<ul>
+<li>trap_init_percpu&#xFF1A;&#x521D;&#x59CB;&#x5316;TSS&#xFF08;&#x4EC5;&#x8BBE;&#x7F6E;esp0&#x548C;ss0&#xFF0C;&#x6BCF;&#x4E2A;cpu&#x4E00;&#x4E2A;&#xFF09;&#xFF0C;TR&#x6307;&#x5411;TSS</li>
 </ul>
 </li>
 <li>env_create&#xFF1A;&#x5206;&#x914D;&#x4E00;&#x4E2A;&#x73AF;&#x5883;<ul>
@@ -435,6 +435,17 @@ make qemu-nox
 <li>env_pop_tf(Trapframe *tf)&#xFF1A;&#x5C06;e-&gt;env_tf&#x6062;&#x590D;&#x5230;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x7528;iret&#x8DF3;&#x5230;&#x7528;&#x6237;&#x6001;</li>
 </ul>
 </li>
+</ol>
+<h4 id="&#x5B9E;&#x9A8C;4-&#x9644;&#x5F55;">&#x5B9E;&#x9A8C;4 &#x9644;&#x5F55;</h4>
+<ol>
+<li>linux&#x4E2D;&#x4E4B;&#x6240;&#x4EE5;&#x4E3A;&#x6BCF;&#x4E00;&#x4E2A;cpu&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;tss&#x6BB5;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4E3A;&#x6BCF;&#x4E2A;&#x8FDB;&#x7A0B;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;tss&#x6BB5;&#xFF0C;&#x4E3B;&#x8981;&#x539F;&#x56E0;&#x662F;tr&#x5BC4;&#x5B58;&#x5668;&#x6C38;&#x8FDC;&#x6307;&#x5411;&#x5B83;&#xFF0C;&#x6CA1;&#x6709;&#x5207;cpu&#x4E0D;&#x5FC5;&#x5207;&#x6362;tr&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x4ECE;&#x800C;&#x51CF;&#x5C0F;&#x5F00;&#x9500;&#x3002;</li>
+<li>ret&#x548C;iret&#x7684;&#x533A;&#x522B;&#xFF08;&#x7528;&#x6237;&#x6001;&#x8FDB;&#x5165;&#x4E2D;&#x65AD;&#x524D;&#x4F1A;&#x5C06;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x3001;&#x6807;&#x5FD7;&#x5BC4;&#x5B58;&#x5668;&#x538B;&#x5165;&#x5806;&#x6808;&#xFF09;&#xFF1A;<ul>
+<li>ret&#x53EA;&#x5C06;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x5F39;&#x51FA;</li>
+<li>iret&#x5F39;&#x51FA;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x3001;&#x6807;&#x5FD7;&#x5BC4;&#x5B58;&#x5668;</li>
+</ul>
+</li>
+<li>pushal push EAX,EBX,ECX,EDX,ESP,EBP,ESI,EDI</li>
+<li>popal pop EAX,EBX,ECX,EDX,ESP,EBP,ESI,EDI</li>
 </ol>
 
                                 
@@ -475,7 +486,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-28T07:27:27.502Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-28T07:27:59.728Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-28T10:37:42.169Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-28T10:38:05.561Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
