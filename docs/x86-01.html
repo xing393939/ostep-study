@@ -285,17 +285,39 @@
 <li>&#x8DF3;&#x8F6C;&#x5230;__KERNEL_CS: system_call&#x6267;&#x884C;&#xFF08;&#x5148;&#x901A;&#x8FC7;__KERNEL_CS&#x5728;GDT&#x627E;&#x5230;&#x6BB5;&#x7684;&#x57FA;&#x5740;&#xFF09;</li>
 </ol>
 <h4 id="&#x7EC6;&#x8282;">&#x7EC6;&#x8282;</h4>
-<pre><code class="lang-c"><span class="hljs-comment">// &#x7528;&#x6237;&#x6001;</span>
-mov [num] %eax <span class="hljs-comment">// &#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;</span>
-mov [a1] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;1</span>
-mov [a2] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;2</span>
-mov [a3] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
-mov [a4] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
-mov [a5] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;4</span>
-<span class="hljs-keyword">int</span> <span class="hljs-number">48</span>         <span class="hljs-comment">/* &#x53D1;&#x8D77;&#x8C03;&#x7528;
-                * 
-                * 
-                */</span>
+<pre><code class="lang-c"><span class="hljs-comment">// &#x7528;&#x6237;&#x6001;&#xFF0C;CPL=3&#xFF0C;&#x8C03;&#x7528;sys_getenvid</span>
+mov [num] %eax     <span class="hljs-comment">// &#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;</span>
+mov [a1] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;1</span>
+mov [a2] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;2</span>
+mov [a3] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
+mov [a4] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
+mov [a5] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;4</span>
+<span class="hljs-keyword">int</span> <span class="hljs-number">0x30</span>           <span class="hljs-comment">/* &#x53D1;&#x8D77;&#x8C03;&#x7528;&#xFF0C;IDT&#x8868;&#x53D6;&#x95E8;&#x63CF;&#x8FF0;&#x7B26;&#xFF08;__KERNEL_CS: system_call&#xFF09;
+                    * __KERNEL_CS&#x662F;&#x6BB5;&#x9009;&#x62E9;&#x7B26;&#xFF08;16bit&#xFF0C;&#x524D;13bit=GDT&#x8868;&#x7684;&#x7D22;&#x5F15;&#xFF0C;1bit=DI&#xFF0C;2bit=RPL&#xFF09;
+                    * __KERNEL_CS&#x5728;GDT&#x8868;&#x627E;&#x5230;&#x6BB5;&#x57FA;&#x5740;
+                    * __KERNEL_CS&#x7684;RPL&#x5982;&#x679C;=0&#xFF0C;&#x800C;CPL=3&#xFF0C;&#x5219;&#x5C06;CPL&#x7F6E;0&#x5E76;&#x5207;&#x6362;&#x6808;&#xFF1A;
+                    * &#x627E;&#x5230;TR&#x6307;&#x5411;&#x7684;TSS&#x6BB5;&#xFF0C;&#x8BA9;esp=esp0&#xFF0C;ss=ss0
+                    */</span>
+
+<span class="hljs-comment">// &#x5185;&#x6838;&#x6001;&#xFF0C;CPL=0&#xFF0C;ESP=efffffe8</span>
+TRAPHANDLER_NOEC:
+  pushl $<span class="hljs-number">0</span>;        <span class="hljs-comment">// push errcode</span>
+  pushl <span class="hljs-number">0x30</span>;      <span class="hljs-comment">// push num</span>
+  jmp _alltraps    <span class="hljs-comment">//</span>
+
+_alltraps:         
+  pushl %ds        <span class="hljs-comment">// push ds</span>
+  pushl %es        <span class="hljs-comment">// push es</span>
+  pushal           <span class="hljs-comment">// push edi; esi; ebp; oesp; ebx; edx; ecx; eax;</span>
+  pushl %esp       <span class="hljs-comment">// push esp</span>
+  movw $GD_KD, %ax <span class="hljs-comment">// GDT Kernel Data</span>
+  movw %ax, %ds    <span class="hljs-comment">// &#x8BBE;&#x7F6E;ds&#x5BC4;&#x5B58;&#x5668;</span>
+  movw %ax, %es    <span class="hljs-comment">// &#x8BBE;&#x7F6E;es&#x5BC4;&#x5B58;&#x5668;</span>
+  call trap
+
+trap:
+  <span class="hljs-comment">// &#x5904;&#x7406;&#x7A0B;&#x5E8F;</span>
+  <span class="hljs-comment">// &#x8C03;&#x7528;env_pop_tf&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x7528;&#x6237;&#x6001;</span>
 </code></pre>
 
                                 
@@ -336,7 +358,7 @@ mov [a5] %edx  <span class="hljs-comment">// &#x53C2;&#x6570;4</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"系统调用细节","level":"1.6.1","depth":2,"next":{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},"previous":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-01.md","mtime":"2021-04-28T10:37:42.169Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-28T10:38:05.561Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"系统调用细节","level":"1.6.1","depth":2,"next":{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},"previous":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-01.md","mtime":"2021-04-29T03:22:45.260Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-29T03:23:12.505Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
