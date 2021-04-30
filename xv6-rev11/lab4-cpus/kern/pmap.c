@@ -291,6 +291,16 @@ page_init(void)
 	// LAB 4:
 	// Change your code to mark the physical page at MPENTRY_PADDR
 	// as in use
+    size_t i, extendedFree = PGNUM(PADDR(boot_alloc(0)));
+    for(i = 0; i < npages; ++i) {
+        pages[i].pp_ref = 0;
+        if (i == 0 || (i >= npages_basemem && i < extendedFree) || i == PGNUM(MPENTRY_PADDR)) {
+            pages[i].pp_link = NULL;
+        } else {
+            pages[i].pp_link = page_free_list;
+            page_free_list = &pages[i];
+        }
+    }
 
 	// The example code here marks all physical pages as free.
 	// However this is not truly the case.  What memory is free?
@@ -309,7 +319,6 @@ page_init(void)
 	// Change the code to reflect this.
 	// NB: DO NOT actually touch the physical memory corresponding to
 	// free pages!
-	size_t i;
     // 这里采用的思路是：凡是不能被分配的内存页，都不加到链表里面。
     // 只处理可以被使用的内存页。
     assert(!page_free_list);
@@ -583,7 +592,13 @@ mmio_map_region(physaddr_t pa, size_t size)
 	// Hint: The staff solution uses boot_map_region.
 	//
 	// Your code here:
-	panic("mmio_map_region not implemented");
+    size_t sizeUp = ROUNDUP(size, PGSIZE);
+    if(sizeUp > (MMIOLIM - base))panic("reservation of mmio overflow MMIOLIM!");
+    boot_map_region(kern_pgdir, base, sizeUp, pa, (PTE_PCD | PTE_PWT | PTE_W));
+    // test case in check_page below -check that they don't overlap-reminds me of that base is an static variable and
+    // this function mmio_map_region might be invoked two or more times.See more details in check_page function below.
+    base += sizeUp;
+    return (void *)(base - sizeUp);
 }
 
 static uintptr_t user_mem_check_addr;

@@ -377,7 +377,12 @@ make qemu-nox
 </li>
 <li>jos&#x628A;&#x6574;&#x4E2A;&#x7269;&#x7406;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x5212;&#x5206;&#x6210;&#x4E09;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;<ul>
 <li>&#x4ECE;0x00000~0xA0000&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x53EB;&#x505A;basemem&#xFF0C;&#x662F;&#x53EF;&#x7528;&#x7684;&#x3002;</li>
-<li>&#x4ECE;0xA0000~0x100000&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x53EB;&#x505A;IO hole&#xFF0C;&#x662F;&#x4E0D;&#x53EF;&#x7528;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x88AB;&#x7528;&#x6765;&#x5206;&#x914D;&#x7ED9;&#x5916;&#x90E8;&#x8BBE;&#x5907;&#x4E86;&#x3002;</li>
+<li>&#x4ECE;0xA0000~0x100000&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x53EB;&#x505A;IO hole&#xFF0C;&#x662F;&#x4E0D;&#x53EF;&#x7528;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x88AB;&#x7528;&#x6765;&#x5206;&#x914D;&#x7ED9;&#x5916;&#x90E8;&#x8BBE;&#x5907;&#x4E86;&#x3002;<ul>
+<li>&#x4ECE;0xA0000~0xC0000&#xFF1A;VGA Display</li>
+<li>&#x4ECE;0xC0000~0xF0000&#xFF1A;Devices&#x3001;Expansion ROMs</li>
+<li>&#x4ECE;0xF0000~0x100000&#xFF1A;BIOS ROM</li>
+</ul>
+</li>
 <li>&#x4ECE;0x100000~0x&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x53EB;&#x505A;extmem&#xFF0C;&#x662F;&#x53EF;&#x7528;&#x7684;&#xFF0C;&#x8FD9;&#x662F;&#x6700;&#x91CD;&#x8981;&#x7684;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x3002;</li>
 </ul>
 </li>
@@ -452,7 +457,28 @@ make qemu-nox
 <li><a href="https://blog.csdn.net/zeewee1986/article/details/8454452" target="_blank">x86&#x67B6;&#x6784;&#x4E0B;Intel CPU&#x91CC;&#x7684;Multi Processor&#x7684;&#x5B66;&#x4E60;&#x8BB0;&#x5F55;</a></li>
 <li>SMP&#xFF1A;&#x5BF9;&#x79F0;&#x591A;&#x5904;&#x7406;&#x5668;&#xFF0C;&#x4E00;&#x4E2A;CPU&#x6709;N&#x4E2A;&#x6838;&#xFF08;Core&#xFF09;&#xFF0C;&#x6BCF;&#x4E2A;&#x6838;&#x6709;M&#x4E2A;&#x903B;&#x8F91;&#x5904;&#x7406;&#x5668;&#xFF08;Logical Processor&#xFF09;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;&#x6709;N*M&#x4E2A;&#x7EBF;&#x7A0B;&#xFF08;Thread&#xFF09;<ul>
 <li>BSP&#xFF1A;&#x5F15;&#x5BFC;&#x7A0B;&#x5E8F;&#x5904;&#x7406;&#x5668;&#xFF0C;Bios&#x9009;&#x51FA;&#x7684;&#x4E00;&#x4E2A;Logical Processor&#x3002;&#x8D1F;&#x8D23;&#x521D;&#x59CB;&#x5316;&#x7CFB;&#x7EDF;&#x548C;&#x5F15;&#x5BFC;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;</li>
-<li>AP&#xFF1A;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5904;&#x7406;&#x5668;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x540E;&#x8FD0;&#x884C;&#xFF0C;&#x7531;BSP&#x6FC0;&#x6D3B;</li>
+<li>AP&#xFF1A;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5904;&#x7406;&#x5668;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x540E;&#x8FD0;&#x884C;&#xFF0C;&#x7531;BSP&#x6FC0;&#x6D3B;<pre><code class="lang-c"><span class="hljs-comment">// BSP&#x548C;AP&#x7684;&#x6267;&#x884C;&#x8DEF;&#x5F84;</span>
+kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==================================&gt; sched_yield
+                             |
+                             V
+                     kern/mpentry.S:mpentry_start ==&gt; kern/init.c:mp_main ==&gt; sched_yield
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="&#x5B9E;&#x9A8C;4-part-a">&#x5B9E;&#x9A8C;4 Part A</h4>
+<ol>
+<li>&#x5168;&#x5C40;&#x53D8;&#x91CF;struct CpuInfo cpus[8]&#xFF1B;&#x6700;&#x591A;&#x652F;&#x6301;8&#x6838;</li>
+<li>&#x5168;&#x5C40;&#x53D8;&#x91CF;physaddr_t lapicaddr&#xFF1B;LAPIC Hole&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF08;4GB - 32MB&#xFF09;</li>
+<li>4&#x4E2A;&#x51FD;&#x6570;     <ul>
+<li>mp_init(); &#x8BFB;&#x53D6;BIOS&#x5185;&#x5B58;&#x533A;&#x57DF;&#x4E2D;&#x7684;MP&#x914D;&#x7F6E;&#x8868;&#xFF0C;&#x7B97;&#x51FA;&#x5168;&#x5C40;&#x53D8;&#x91CF;cpus<ul>
+<li>mpconfig(); </li>
+</ul>
+</li>
+<li>lapic_init();</li>
+<li>pic_init(); &#x521D;&#x59CB;&#x5316;pic</li>
+<li>boot_aps(); &#x542F;&#x52A8;AP</li>
 </ul>
 </li>
 </ol>
@@ -495,7 +521,7 @@ make qemu-nox
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-30T01:20:55.831Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-30T01:21:29.602Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-04-30T09:41:36.123Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-30T09:42:07.489Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
