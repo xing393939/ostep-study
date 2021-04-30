@@ -291,6 +291,7 @@ page_init(void)
 	// LAB 4:
 	// Change your code to mark the physical page at MPENTRY_PADDR
 	// as in use
+    assert(!page_free_list);
     size_t i, extendedFree = PGNUM(PADDR(boot_alloc(0)));
     for(i = 0; i < npages; ++i) {
         pages[i].pp_ref = 0;
@@ -321,24 +322,14 @@ page_init(void)
 	// free pages!
     // 这里采用的思路是：凡是不能被分配的内存页，都不加到链表里面。
     // 只处理可以被使用的内存页。
-    assert(!page_free_list);
+
     // 1. page 0是要被用来做实模式的IDT BIOS数据结构，尽管从来不会用，以后也不会用
     //    这不是浪费么。不管了。
     // 2. 接下来的[PGSIZE, npages_basemem * PGSIZE)是可用的。
-    for (i = 1; i < npages_basemem; i++) {
-        pages[i].pp_ref = 0;
-        pages[i].pp_link = page_free_list;
-        page_free_list = &pages[i];
-    }
     // 3. IO空洞，绝对不能使用。
     //    链表直接跳过。不管。
     // 4. 直接找到kernel内存的尾巴
     //    注意这里取了PADDR之后要除PGSIZE.
-    for (i = PADDR(boot_alloc(0))/PGSIZE; i < npages; i++) {
-        pages[i].pp_ref = 0;
-        pages[i].pp_link = page_free_list;
-        page_free_list = &pages[i];
-    }
 }
 
 //
