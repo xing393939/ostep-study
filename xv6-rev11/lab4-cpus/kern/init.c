@@ -45,6 +45,7 @@ i386_init(void)
 	// Your code here:
 
 	// Starting non-boot CPUs
+    lock_kernel();
 	boot_aps();
 
 #if defined(TEST)
@@ -53,7 +54,12 @@ i386_init(void)
 #else
 	// Touch all you want.
 	ENV_CREATE(user_primes, ENV_TYPE_USER);
-#endif // TEST*
+#endif
+
+	// 创建3个用户进程
+    ENV_CREATE(user_yield, ENV_TYPE_USER);
+    ENV_CREATE(user_yield, ENV_TYPE_USER);
+    ENV_CREATE(user_yield, ENV_TYPE_USER);
 
 	// Schedule and run the first user environment!
 	sched_yield();
