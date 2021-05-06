@@ -53,13 +53,12 @@ i386_init(void)
 	ENV_CREATE(TEST, ENV_TYPE_USER);
 #else
 	// Touch all you want.
-	ENV_CREATE(user_primes, ENV_TYPE_USER);
+	// ENV_CREATE(user_primes, ENV_TYPE_USER);
+    // 创建3个用户进程
+    ENV_CREATE(user_yield, ENV_TYPE_USER);
+    ENV_CREATE(user_yield, ENV_TYPE_USER);
+    ENV_CREATE(user_yield, ENV_TYPE_USER);
 #endif
-
-	// 创建3个用户进程
-    ENV_CREATE(user_yield, ENV_TYPE_USER);
-    ENV_CREATE(user_yield, ENV_TYPE_USER);
-    ENV_CREATE(user_yield, ENV_TYPE_USER);
 
 	// Schedule and run the first user environment!
 	sched_yield();
