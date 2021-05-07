@@ -365,6 +365,37 @@ page_fault_handler(struct Trapframe *tf)
 	//   (the 'tf' variable points at 'curenv->env_tf').
 
 	// LAB 4: Your code here.
+    if (curenv->env_pgfault_upcall) {
+        // exist env_pgfault_upcall.
+        struct UTrapframe *utf;
+        if (tf->tf_esp >= (UXSTACKTOP - PGSIZE) && tf->tf_esp <= (UXSTACKTOP - 1)) {
+            // the user environment is already running on the exception stack when an exception occurs.
+            // Thus,we should start the new stack frame just under the tf->tf_esp.We have to push a word
+            // at the top of the trap-time stack as a scratch space.
+            utf = (struct UTrapframe *)(tf->tf_esp - 4 - sizeof(struct UTrapframe));
+        } else {
+            utf = (struct UTrapframe *)(UXSTACKTOP- sizeof(struct UTrapframe));
+        }
+        // 1.We have to check whether the environment allocate a page with permissions PTE_W for its exception
+        // stack and whether the exception stack overflows.
+        // 2.Set size to 1 is enough here,because the user environment exception stack's size is only on page,
+        // user_mem_assert function will definitely fail as long as the utf's virtual address is already lower
+        // than UXSTACKTOP-PGSIZE.Actually,any value between 1 and sizeof(struct UTrapFrame) is okay here.
+        // 3.if user_mem_assert fail,this function will not return,just invoke env_destroy and sys_yield.
+        user_mem_assert(curenv, (void *)utf, 1, PTE_W);
+        // now we can construct UTrapFrame.
+        utf->utf_esp = tf->tf_esp;
+        utf->utf_eflags = tf->tf_eflags;
+        utf->utf_eip = tf->tf_eip;
+        utf->utf_regs = tf->tf_regs;
+        utf->utf_err = tf->tf_err;
+        utf->utf_fault_va = fault_va;
+        // then branch to curenv->env_pgfault_upcall.
+        curenv->env_tf.tf_eip = (uintptr_t)curenv->env_pgfault_upcall;
+        // Don't forget set stack pointer.
+        curenv->env_tf.tf_esp = (uintptr_t)utf;
+        env_run(curenv); // never return.
+    }
 
 	// Destroy the environment that caused the fault.
 	cprintf("[%08x] user fault va %08x ip %08x\n",
