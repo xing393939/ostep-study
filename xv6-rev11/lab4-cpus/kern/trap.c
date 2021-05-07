@@ -109,7 +109,7 @@ trap_init(void)
     SETGATE(idt[T_ALIGN], 0, GD_KT, T_ALIGN_handler, 0);
     SETGATE(idt[T_MCHK], 0, GD_KT, T_MCHK_handler, 0);
     SETGATE(idt[T_SIMDERR], 0, GD_KT, T_SIMDERR_handler, 0);
-    SETGATE(idt[T_SYSCALL], 1, GD_KT, T_SYSCALL_handler, 3);
+    SETGATE(idt[T_SYSCALL], 0, GD_KT, T_SYSCALL_handler, 3);
 
     // IRQ
     void IRQ_timerHandler();
