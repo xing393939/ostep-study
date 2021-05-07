@@ -15,7 +15,7 @@ umain(int argc, char **argv)
 			/* do nothing */;
 	}
 
-	cprintf("I am the parent %08x.  Running the child %08x...\n", thisenv->env_id, env);
+	cprintf("I am the parent.  Running the child...\n");
 	sys_yield();
 	sys_yield();
 	sys_yield();
