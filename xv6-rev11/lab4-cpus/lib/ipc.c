@@ -57,12 +57,13 @@ ipc_send(envid_t to_env, uint32_t val, void *pg, int perm)
     do {
         r = sys_ipc_try_send(to_env, val, pg, perm);
         if (r == -E_IPC_NOT_RECV) {
+            // 对方的env_ipc_recving不是true就挂起，反正要等待不如让出cpu
             // 用户级程序不能直接调用 sched_yeild();
             sys_yield();
-        } else if((r != -E_IPC_NOT_RECV)&& (r < 0 )) {
+        } else if ((r != -E_IPC_NOT_RECV) && (r < 0)) {
             panic("ipc_send failed %e\n", r);
         }
-    } while (r < 0) ;
+    } while (r < 0);
 }
 
 // Find the first environment of the given type.  We'll use this to
