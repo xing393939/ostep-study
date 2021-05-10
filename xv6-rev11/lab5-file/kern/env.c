@@ -404,6 +404,11 @@ env_create(uint8_t *binary, enum EnvType type)
     assert(!env_alloc(&init_task, 0));
     init_task->env_parent_id = 0;
     init_task->env_type = type;
+
+    // 只要文件系统env有文件系统I/O的权限
+    if (type == ENV_TYPE_FS) {
+        newenv->env_tf.tf_eflags |= FL_IOPL_MASK;
+    }
     load_icode(init_task, binary);
 }
 
