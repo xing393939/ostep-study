@@ -524,10 +524,20 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
 <li>&#x5F02;&#x5E38;&#x6808;&#x6700;&#x9AD8;&#x70B9;&#x5728;UXSTACKTOP&#xFF0C;&#x5904;&#x7406;&#x9875;&#x6545;&#x969C;</li>
 </ul>
 </li>
-<li>lib/fork.c&#x7684;3&#x4E2A;&#x51FD;&#x6570;&#xFF1A;<ul>
-<li>fork()</li>
-<li>pgfault(struct UTrapframe *utf)</li>
+<li>&#x4E94;&#x4E2A;env&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF1A;<ul>
+<li>sys_env_set_pgfault_upcall(envid, func)&#xFF1A;&#x7ED9;env&#x8BBE;&#x7F6E;&#x9875;&#x6545;&#x969C;&#x56DE;&#x8C03;&#x51FD;&#x6570;</li>
+<li>sys_env_set_status(envid, status)&#xFF1A;&#x7ED9;env&#x8BBE;&#x7F6E;&#x8FD0;&#x884C;&#x72B6;&#x6001;</li>
+<li>sys_page_alloc(envid, va, int perm)&#xFF1A;&#x7ED9;env&#x7684;va&#x5206;&#x914D;&#x9875;</li>
+<li>sys_page_map(srcenvid, srcva, dstenvid, dstva, perm)&#xFF1A;&#x590D;&#x5236;srcenv&#x7684;va&#x5230;dstenv&#x7684;va&#x5904;&#xFF08;&#x4EC5;&#x590D;&#x5236;&#x9875;&#x6620;&#x5C04;&#xFF09;</li>
+<li>sys_page_unmap(envid, va)&#xFF1A;&#x53D6;&#x6D88;env&#x7684;va&#x6620;&#x5C04;</li>
+</ul>
+</li>
+<li>lib/fork.c&#x7684;fork()&#x51FD;&#x6570;&#xFF1A;<ul>
+<li>set_pgfault_handler(pgfault); &#x9875;&#x6545;&#x969C;&#x65F6;&#x5148;alloc&#x65B0;&#x9875;&#xFF0C;copy&#x5185;&#x5BB9;&#xFF0C;&#x6743;&#x9650;&#x8BBE;&#x4E3A;&#x53EF;&#x5199;</li>
+<li>sys_exofork(); fork&#x4E00;&#x4E2A;&#x7A7A;&#x767D;&#x7684;&#x73AF;&#x5883;</li>
 <li>duppage(envid_t envid, unsigned pn)</li>
+<li>&#x5206;&#x914D;&#x4E00;&#x9875;&#x7A7A;&#x95F4;&#x7ED9;&#x5F02;&#x5E38;&#x6808;</li>
+<li>&#x8BBE;&#x7F6E;&#x5B50;&#x8FDB;&#x7A0B;&#x7684;&#x9875;&#x6545;&#x969C;&#x56DE;&#x8C03;&#xFF08;&#x548C;&#x7236;&#x8FDB;&#x7A0B;&#x4E00;&#x81F4;&#xFF09;</li>
 </ul>
 </li>
 </ol>
@@ -584,7 +594,7 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-10T02:01:48.989Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-10T02:02:20.702Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-10T02:40:47.607Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-10T02:41:15.903Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

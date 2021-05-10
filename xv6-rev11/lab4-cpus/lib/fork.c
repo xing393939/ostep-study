@@ -37,7 +37,7 @@ pgfault(struct UTrapframe *utf)
 	// LAB 4: Your code here.
     envid_t envid = sys_getenvid();
     // 临时页暂存
-    if ((r = sys_page_alloc(envid, (void *)PFTEMP, PTE_P| PTE_W|PTE_U)) < 0)
+    if ((r = sys_page_alloc(envid, (void *) PFTEMP, PTE_P|PTE_W|PTE_U)) < 0)
         panic("pgfault: page allocation fault:%e\n", r);
     addr = ROUNDDOWN(addr, PGSIZE);
     memcpy((void *) PFTEMP, (const void *) addr, PGSIZE);
