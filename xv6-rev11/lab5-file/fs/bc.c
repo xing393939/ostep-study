@@ -84,11 +84,12 @@ flush_block(void *addr)
 		panic("flush_block of bad va %08x", addr);
 
 	// LAB 5: Your code here.
+    int r;
     addr = (void *) ROUNDDOWN(addr, PGSIZE);
     if (va_is_mapped(addr) && va_is_dirty(addr)) {
 
         ide_write(blockno * BLKSECTS, addr , BLKSECTS);
-        if (sys_page_map(0, addr, 0, addr, uvpt[PGNUM(addr)] & PTE_SYSCALL) < 0)
+        if ((r = sys_page_map(0, addr, 0, addr, uvpt[PGNUM(addr)] & PTE_SYSCALL)) < 0)
             panic("in flush_block, sys_page_map: %e", r);
     }
 }
