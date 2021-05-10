@@ -228,9 +228,9 @@ sys_page_map(envid_t srcenvid, void *srcva,
     struct Env *srcenv, *dstenv;
     struct PageInfo *srcpp, *dstpp;
     pte_t *pte;
-    if ((envid2env(srcenvid, &srcenv, 1) < 0 )|| ( envid2env(dstenvid, &dstenv, 1) < 0))
+    if ((envid2env(srcenvid, &srcenv, 1) < 0 ) || (envid2env(dstenvid, &dstenv, 1) < 0))
         return -E_BAD_ENV;
-    if ((uintptr_t)srcva >= UTOP || PGOFF(srcva) || (uintptr_t)dstva >= UTOP || PGOFF(dstva))
+    if ((uintptr_t) srcva >= UTOP || PGOFF(srcva) || (uintptr_t) dstva >= UTOP || PGOFF(dstva))
         return -E_INVAL;
     if ( (perm & PTE_SYSCALL)==0 || (perm & ~PTE_SYSCALL))
         return -E_INVAL;
