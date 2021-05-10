@@ -76,7 +76,7 @@ duppage(envid_t envid, unsigned pn)
         if ((ret = sys_page_map(thisenv->env_id, (void *) va, 0, (void *) va, PTE_P|PTE_U|PTE_COW)) < 0)
             return ret;
     } else {
-        if((ret = sys_page_map(thisenv->env_id, (void *) va, envid, (void * )va, PTE_P|PTE_U)) < 0)
+        if ((ret = sys_page_map(thisenv->env_id, (void *) va, envid, (void * ) va, PTE_P|PTE_U)) < 0)
             return ret;
     }
 	return 0;
