@@ -30,9 +30,26 @@ sched_yield(void)
 	// below to halt the cpu.
 
 	// LAB 4: Your code here.
+    struct Env *now = thiscpu->cpu_env;
+    int32_t startid = (now) ? ENVX(now->env_id): 0;
+    int32_t nextid;
+    size_t i;
+    // 当前没有任何环境执行,应该从0开始查找
+    for(i = 0; i < NENV; i++) {
+        nextid = (startid+i) % NENV;
+        if(envs[nextid].env_status == ENV_RUNNABLE) {
+            env_run(&envs[nextid]);
+            return;
+        }
+    }
 
-	// sched_halt never returns
-	sched_halt();
+    // 循环一圈后，没有可执行的环境
+    if(envs[startid].env_status == ENV_RUNNING && envs[startid].env_cpunum == cpunum()) {
+        env_run(&envs[startid]);
+    }
+
+    // sched_halt never returns
+    sched_halt();
 }
 
 // Halt this CPU when there is nothing to do. Wait until the
@@ -76,7 +93,7 @@ sched_halt(void)
 		"pushl $0\n"
 		"pushl $0\n"
 		// Uncomment the following line after completing exercise 13
-		//"sti\n"
+		"sti\n"
 		"1:\n"
 		"hlt\n"
 		"jmp 1b\n"
