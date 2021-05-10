@@ -88,7 +88,7 @@ flush_block(void *addr)
     if (va_is_mapped(addr) && va_is_dirty(addr)) {
 
         ide_write(blockno * BLKSECTS, addr , BLKSECTS);
-        if ((r = sys_page_map(0, addr, 0, addr, uvpt[PGNUM(addr)] & PTE_SYSCALL)) < 0)
+        if (sys_page_map(0, addr, 0, addr, uvpt[PGNUM(addr)] & PTE_SYSCALL) < 0)
             panic("in flush_block, sys_page_map: %e", r);
     }
 }
