@@ -170,7 +170,7 @@ file_block_walk(struct File *f, uint32_t filebno, uint32_t **ppdiskbno, bool all
         flush_block(diskaddr(blockno));
     }
     if (ppdiskbno)
-        *ppdiskbno = (uint32_t *) diskaddr(f->f_indirect) + filebno;
+        *ppdiskbno = ((uint32_t *) diskaddr(f->f_indirect)) + (filebno - NDIRECT);
     return 0;
 }
 
