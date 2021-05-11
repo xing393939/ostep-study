@@ -157,7 +157,7 @@ file_block_walk(struct File *f, uint32_t filebno, uint32_t **ppdiskbno, bool all
 
     filebno -= NDIRECT;
     // indirect 还未分配
-    if (!!f->f_indirect) {
+    if (!f->f_indirect) {
         if (alloc == 0)
             return -E_NOT_FOUND;
         // 分配一个 indirect block
