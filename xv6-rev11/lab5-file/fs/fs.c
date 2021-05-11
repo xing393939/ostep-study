@@ -142,8 +142,36 @@ fs_init(void)
 static int
 file_block_walk(struct File *f, uint32_t filebno, uint32_t **ppdiskbno, bool alloc)
 {
-       // LAB 5: Your code here.
-       panic("file_block_walk not implemented");
+    // LAB 5: Your code here.
+    // ppdiskbno 块指针
+    if (filebno < NDIRECT) {
+        // but note that *ppdiskbno might equal 0
+        if (ppdiskbno)
+            *ppdiskbno = &(f->f_direct[filebno]);
+        else
+            return 0;
+    }
+
+    if (filebno >= NDIRECT + NINDIRECT)
+        return -E_INVAL;
+
+    filebno -= NDIRECT;
+    // indirect 还未分配
+    if (!!f->f_indirect) {
+        if (alloc == 0)
+            return -E_NOT_FOUND;
+        // 分配一个 indirect block
+        uint32_t blockno;
+        if ((blockno = alloc_block()) < 0)
+            return blockno;
+        // f_indirect 直接记录块号，而不是记地址
+        f->f_indirect = blockno;
+        memset(diskaddr(blockno), 0, BLKSIZE);
+        flush_block(diskaddr(blockno));
+    }
+    if (ppdiskbno)
+        *ppdiskbno = (uint32_t *) diskaddr(f->f_indirect) + filebno;
+    return 0;
 }
 
 // Set *blk to the address in memory where the filebno'th
@@ -157,8 +185,24 @@ file_block_walk(struct File *f, uint32_t filebno, uint32_t **ppdiskbno, bool all
 int
 file_get_block(struct File *f, uint32_t filebno, char **blk)
 {
-       // LAB 5: Your code here.
-       panic("file_get_block not implemented");
+    // LAB 5: Your code here.
+    uint32_t *pdiskbno;
+    int r;
+    if ((r = file_block_walk(f, filebno, &pdiskbno, 1)) < 0)
+        return r;
+
+    if (*pdiskbno == 0) {
+        // 文件块还未分配
+        if ((r = alloc_block()) < 0)
+            return r;
+        *pdiskbno = r;
+        memset(diskaddr(r), 0, BLKSIZE);
+        flush_block(diskaddr(r));
+    }
+
+    // 最终指向块
+    *blk = diskaddr(*pdiskbno);
+    return 0;
 }
 
 // Try to find a file named "name" in dir.  If so, set *file to it.
