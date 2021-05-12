@@ -62,15 +62,14 @@ pgfault(struct UTrapframe *utf)
 static int
 duppage(envid_t envid, unsigned pn)
 {
-	int r;
-
 	// LAB 4: Your code here.
-    pte_t *pte;
     int ret;
-    // 用户空间的地址较低
     uint32_t va = pn * PGSIZE;
 
-    if (uvpt[pn] & PTE_W || uvpt[pn] & PTE_COW) {
+    if (uvpt[pn] & PTE_SHARE) {
+        if ((ret = sys_page_map(0, (void *) va, envid, (void *) va, uvpt[pn] & PTE_SYSCALL)) < 0)
+            return ret;
+    } else (uvpt[pn] & PTE_W || uvpt[pn] & PTE_COW) {
         if ((ret = sys_page_map(thisenv->env_id, (void *) va, envid, (void *) va, PTE_P|PTE_U|PTE_COW)) < 0)
             return ret;
         if ((ret = sys_page_map(thisenv->env_id, (void *) va, 0, (void *) va, PTE_P|PTE_U|PTE_COW)) < 0)
