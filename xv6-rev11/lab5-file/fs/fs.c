@@ -143,34 +143,29 @@ static int
 file_block_walk(struct File *f, uint32_t filebno, uint32_t **ppdiskbno, bool alloc)
 {
     // LAB 5: Your code here.
-    // ppdiskbno 块指针
-    if (filebno < NDIRECT) {
-        // but note that *ppdiskbno might equal 0
-        if (ppdiskbno)
-            *ppdiskbno = &(f->f_direct[filebno]);
-        else
-            return 0;
-    }
-
+    uint32_t blockno;
     if (filebno >= NDIRECT + NINDIRECT)
         return -E_INVAL;
-
-    filebno -= NDIRECT;
-    // indirect 还未分配
-    if (!f->f_indirect) {
-        if (alloc == 0)
-            return -E_NOT_FOUND;
-        // 分配一个 indirect block
-        uint32_t blockno;
-        if ((blockno = alloc_block()) < 0)
-            return blockno;
-        // f_indirect 直接记录块号，而不是记地址
-        f->f_indirect = blockno;
-        memset(diskaddr(blockno), 0, BLKSIZE);
-        flush_block(diskaddr(blockno));
+    if (filebno < NDIRECT) {
+        *ppdiskbno = f->f_direct + filebno;
+        return 0;
     }
-    if (ppdiskbno)
-        *ppdiskbno = ((uint32_t *) diskaddr(f->f_indirect)) + (filebno - NDIRECT);
+    if (!(f->f_indirect)) {
+        // get here means that we need to allocate an indirect block,
+        // but alloc was 0.
+        if (!alloc)
+            return -E_NOT_FOUND;
+        // Now we could allocate an indirect block by using alloc_block.
+        if ((blockno = alloc_block()) < 0)
+            return -E_NO_DISK;
+        f->f_indirect = blockno;
+        // claer the block we allocated above.
+        memset(diskaddr(f->f_indirect), 0, BLKSIZE);
+        flush_block(diskaddr(f->f_indirect));
+    }
+    // There is a trick:f->f_indirect is an block number while f->direct is an virtual address.
+    // That's why we need to convert f->f_indirect to virtual address firstly.
+    *ppdiskbno = ((uint32_t *) diskaddr(f->f_indirect)) + (filebno - NDIRECT);
     return 0;
 }
 
@@ -186,22 +181,19 @@ int
 file_get_block(struct File *f, uint32_t filebno, char **blk)
 {
     // LAB 5: Your code here.
-    uint32_t *pdiskbno;
     int r;
-    if ((r = file_block_walk(f, filebno, &pdiskbno, 1)) < 0)
+    uint32_t *ppdiskno;
+
+    // value of r might be 0, -E_INVAL, -E_NO_DISK.
+    if ((r = file_block_walk(f, filebno, &ppdiskno, 1)) < 0)
         return r;
-
-    if (*pdiskbno == 0) {
-        // 文件块还未分配
+    // *ppdiskno is zero means that we should allocate a blobk.
+    if (!(*ppdiskno)) {
         if ((r = alloc_block()) < 0)
-            return r;
-        *pdiskbno = r;
-        memset(diskaddr(r), 0, BLKSIZE);
-        flush_block(diskaddr(r));
+            return -E_NO_DISK;
+        *ppdiskno = r;
     }
-
-    // 最终指向块
-    *blk = diskaddr(*pdiskbno);
+    *blk = (char *) diskaddr(*ppdiskno);
     return 0;
 }
 
