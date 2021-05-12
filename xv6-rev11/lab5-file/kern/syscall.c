@@ -419,7 +419,7 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
 	// LAB 3: Your code here.
     switch (syscallno) {
         case SYS_cputs:
-            sys_cputs((char*)a1, (size_t)a2);
+            sys_cputs((char *) a1, (size_t) a2);
         case SYS_cgetc:
             return sys_cgetc();
         case SYS_getenvid:
@@ -429,7 +429,7 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
             assert(curenv);
             return sys_env_destroy((envid_t) a1);
         case SYS_page_alloc:
-            return sys_page_alloc((envid_t) a1, (void * ) a2, (int ) a3);
+            return sys_page_alloc((envid_t) a1, (void *) a2, (int) a3);
         case SYS_page_map:
             return sys_page_map((envid_t) a1, (void *) a2, (envid_t) a3, (void *) a4, (int) a5);
         case SYS_page_unmap:
@@ -442,13 +442,13 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
             sys_yield();
             return 0;
         case SYS_env_set_pgfault_upcall:
-            return sys_env_set_pgfault_upcall((envid_t) a1, (void*) a2);
+            return sys_env_set_pgfault_upcall((envid_t) a1, (void *) a2);
         case SYS_ipc_try_send:
             return sys_ipc_try_send((envid_t) a1, (uint32_t) a2, (void *) a3, (unsigned) a4);
         case SYS_ipc_recv:
             return sys_ipc_recv((void *) a1);
         case SYS_env_set_trapframe:
-            return sys_env_set_trapframe((envid_t) a1, (Trapframe) a2);
+            return sys_env_set_trapframe((envid_t) a1, (Trapframe *) a2);
         default:
             return -E_INVAL;
     }
