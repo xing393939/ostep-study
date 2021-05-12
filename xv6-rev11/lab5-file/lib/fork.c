@@ -69,7 +69,7 @@ duppage(envid_t envid, unsigned pn)
     if (uvpt[pn] & PTE_SHARE) {
         if ((ret = sys_page_map(0, (void *) va, envid, (void *) va, uvpt[pn] & PTE_SYSCALL)) < 0)
             return ret;
-    } else (uvpt[pn] & PTE_W || uvpt[pn] & PTE_COW) {
+    } else if (uvpt[pn] & PTE_W || uvpt[pn] & PTE_COW) {
         if ((ret = sys_page_map(thisenv->env_id, (void *) va, envid, (void *) va, PTE_P|PTE_U|PTE_COW)) < 0)
             return ret;
         if ((ret = sys_page_map(thisenv->env_id, (void *) va, 0, (void *) va, PTE_P|PTE_U|PTE_COW)) < 0)
