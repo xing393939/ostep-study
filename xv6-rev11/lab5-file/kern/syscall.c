@@ -4,6 +4,7 @@
 #include <inc/error.h>
 #include <inc/string.h>
 #include <inc/assert.h>
+#include <inc/trap.h>
 
 #include <kern/env.h>
 #include <kern/pmap.h>
