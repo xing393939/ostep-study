@@ -282,6 +282,17 @@ popl %ds                 <span class="hljs-comment">// pop ds</span>
 addl $<span class="hljs-number">0x8</span>,%%esp          <span class="hljs-comment">// skip tf_trapno and tf_errcode</span>
 iret                     <span class="hljs-comment">// pop eip; cs; eflags; &#x5982;&#x679C;&#x7279;&#x6743;&#x7EA7;&#x6539;&#x53D8;&#xFF0C;&#x7EE7;&#x7EED;pop esp ss</span>
 </code></pre>
+<h4 id="xv6&#x7528;&#x6237;&#x6001;&#x8FDB;&#x5165;&#x548C;&#x9000;&#x51FA;">xv6&#x7528;&#x6237;&#x6001;&#x8FDB;&#x5165;&#x548C;&#x9000;&#x51FA;</h4>
+<ol>
+<li>lib/entry.S&#x7684;_start</li>
+<li>lib/libmain.c&#x7684;libmain()</li>
+<li>&#x7528;&#x6237;&#x7A0B;&#x5E8F;&#x7684;umain()</li>
+<li>lib/libmain.c&#x7684;libmain()&#x7684;exit()</li>
+<li>lib/exit.c&#x7684;exit()&#xFF0C;&#x8C03;&#x7528;sys_env_destroy()</li>
+<li>&#x5185;&#x6838;&#x6001;&#x7684;sys_env_destroy()</li>
+<li>&#x5185;&#x6838;&#x6001;&#x7684;env_destroy()</li>
+<li>&#x5185;&#x6838;&#x6001;&#x7684;sched_yield()</li>
+</ol>
 
                                 
                                 </section>
@@ -325,7 +336,7 @@ iret                     <span class="hljs-comment">// pop eip; cs; eflags; &#x5
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"如何进入用户态","level":"1.6.2","depth":2,"next":{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},"previous":{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-02.md","mtime":"2021-05-13T02:04:12.851Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-13T02:04:43.220Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"如何进入用户态","level":"1.6.2","depth":2,"next":{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},"previous":{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-02.md","mtime":"2021-05-13T09:05:03.747Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-13T09:05:28.795Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -502,6 +502,14 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
 </li>
 </ul>
 </li>
+<li>&#x4E3A;&#x4EC0;&#x4E48;&#x591A;&#x6838;cpu&#xFF0C;&#x6700;&#x540E;&#x53EA;&#x6709;&#x4E00;&#x4E2A;cpu&#x6267;&#x884C;monitor()&#xFF1F;<ul>
+<li>BSP&#x548C;AP&#x5728;sched_yield()&#x4E4B;&#x524D;&#x8981;lock_kernel()&#xFF0C;&#x8FDB;&#x5165;&#x7528;&#x6237;&#x6001;&#x4E4B;&#x524D;unlock_kernel();</li>
+<li>monitor()&#x51FD;&#x6570;&#x4E00;&#x76F4;&#x5728;&#x5185;&#x6838;&#x6001;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x91CA;&#x653E;&#x5927;&#x5185;&#x6838;&#x9501;</li>
+<li>&#x60C5;&#x51B5;1&#xFF1A;APs&#xFF08;BSP&#x6216;AP&#xFF09;&#x90FD;&#x6CA1;&#x6709;env&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#xFF0C;&#x8C01;&#x5148;lock_kernel()&#x8C01;&#x8FD0;&#x884C;monitor()</li>
+<li>&#x60C5;&#x51B5;2&#xFF1A;APs&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A;&#x6838;&#x5728;&#x5185;&#x6838;&#x6001;&#xFF0C;&#x6216;&#x8005;&#x662F;halt&#x72B6;&#x6001;&#xFF0C;&#x8FD8;&#x662F;&#x8C01;&#x5148;lock_kernel()&#x8C01;&#x8FD0;&#x884C;monitor()</li>
+<li>&#xFF08;halt&#x72B6;&#x6001;&#x7684;&#x6838;&#x88AB;&#x65F6;&#x949F;&#x5524;&#x9192;&#x540E;&#x9700;&#x8981;&#x5148;lock_kernel()&#xFF09;</li>
+</ul>
+</li>
 </ol>
 <h4 id="&#x5B9E;&#x9A8C;4-part-b-&#x5199;&#x65F6;&#x590D;&#x5236;-fork">&#x5B9E;&#x9A8C;4 Part B &#x5199;&#x65F6;&#x590D;&#x5236; Fork</h4>
 <ol>
@@ -611,8 +619,15 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
 </li>
 <li>&#x670D;&#x52A1;&#x7AEF;&#x54CD;&#x5E94;&#xFF1A;<ul>
 <li>ipc_recv(&amp;who, fsreq, perm)&#xFF0C;&#x63A5;&#x6536;&#x8BF7;&#x6C42;&#xFF0C;&#x8BF7;&#x6C42;&#x4E3B;&#x4F53;&#x5B58;&#x5728;fsreq&#xFF08;&#x4F4D;&#x7F6E;0x0ffff000&#xFF09;</li>
-<li>ipc_send(who, r, pg, perm)&#xFF0C;&#x53D1;&#x9001;&#x54CD;&#x5E94;&#xFF0C; &#x8FD4;&#x56DE;&#x503C;&#x662F;r&#xFF08;&#x5982;&#x679C;&#x662F;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#xFF0C;&#x5171;&#x4EAB;&#x9875;&#x5B58;pg&#xFF09;</li>
+<li>ipc_send(who, r, pg, perm)&#xFF0C;&#x53D1;&#x9001;&#x54CD;&#x5E94;&#xFF0C; &#x8FD4;&#x56DE;&#x503C;&#x662F;r&#xFF08;&#x5982;&#x679C;&#x662F;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#xFF0C;&#x53D1;&#x9001;&#x5171;&#x4EAB;&#x9875;pg&#xFF09;<ul>
+<li>&#x5982;&#x679C;&#x662F;&#x8BFB;&#x8BF7;&#x6C42;&#xFF0C;&#x5219;&#x628A;&#x8BFB;&#x53D6;&#x5185;&#x5BB9;&#x5B58;&#x5728;&#x8BF7;&#x6C42;&#x4E3B;&#x4F53;fsreq</li>
 </ul>
+</li>
+</ul>
+</li>
+<li><p>&#x5185;&#x6838;&#x6001;&#x7684;&#x952E;&#x76D8;&#x4EA4;&#x4E92;&#xFF1A;</p>
+</li>
+<li><p>&#x7528;&#x6237;&#x6001;&#x7684;&#x952E;&#x76D8;&#x4EA4;&#x4E92;&#xFF1A;</p>
 </li>
 </ol>
 <p><img src="../images/xv6-lab5.png" alt=""></p>
@@ -655,7 +670,7 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-13T02:04:12.851Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-13T02:04:43.220Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-13T09:05:03.747Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-13T09:05:28.795Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
