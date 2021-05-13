@@ -30,11 +30,11 @@ static void
 bc_pgfault(struct UTrapframe *utf)
 {
 	void *addr = (void *) utf->utf_fault_va;
-	uint32_t blockno = ((uint32_t)addr - DISKMAP) / BLKSIZE;
+	uint32_t blockno = ((uint32_t) addr - DISKMAP) / BLKSIZE;
 	int r;
 
 	// Check that the fault was within the block cache region
-	if (addr < (void*)DISKMAP || addr >= (void*)(DISKMAP + DISKSIZE))
+	if (addr < (void *) DISKMAP || addr >= (void *) (DISKMAP + DISKSIZE))
 		panic("page fault in FS: eip %08x, va %08x, err %04x",
 		      utf->utf_eip, addr, utf->utf_err);
 
@@ -78,9 +78,9 @@ bc_pgfault(struct UTrapframe *utf)
 void
 flush_block(void *addr)
 {
-	uint32_t blockno = ((uint32_t)addr - DISKMAP) / BLKSIZE;
+	uint32_t blockno = ((uint32_t) addr - DISKMAP) / BLKSIZE;
 
-	if (addr < (void*)DISKMAP || addr >= (void*)(DISKMAP + DISKSIZE))
+	if (addr < (void *) DISKMAP || addr >= (void *) (DISKMAP + DISKSIZE))
 		panic("flush_block of bad va %08x", addr);
 
 	// LAB 5: Your code here.
@@ -88,7 +88,7 @@ flush_block(void *addr)
     addr = (void *) ROUNDDOWN(addr, PGSIZE);
     if (va_is_mapped(addr) && va_is_dirty(addr)) {
 
-        ide_write(blockno * BLKSECTS, addr , BLKSECTS);
+        ide_write(blockno * BLKSECTS, addr, BLKSECTS);
         if ((r = sys_page_map(0, addr, 0, addr, uvpt[PGNUM(addr)] & PTE_SYSCALL)) < 0)
             panic("in flush_block, sys_page_map: %e", r);
     }
