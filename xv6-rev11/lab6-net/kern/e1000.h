@@ -21,7 +21,7 @@ e1000_receive(void *addr, size_t *len);
 #define E1000_VENDER_ID_82540EM 0x8086  /* 供应商ID */
 #define E1000_DEV_ID_82540EM 0x100E     /* 设备ID */
 
-#define TXDESCS 32
+#define TXDESCS 32              /* 发送队列长度 */
 #define TX_PKT_SIZE 1518
 #define E1000_STATUS   0x00008  /* Device Status - RO */
 #define E1000_TCTL     0x00400  /* TX Control - RW */
@@ -34,7 +34,6 @@ e1000_receive(void *addr, size_t *len);
 #define E1000_TXD_STAT_DD    0x00000001 /* Descriptor Done */
 #define E1000_TXD_CMD_EOP    0x00000001 /* End of Packet */
 #define E1000_TXD_CMD_RS     0x00000008 /* Report Status */
-
 
 #define RXDESCS 128
 #define RX_PKT_SIZE 1518
@@ -52,6 +51,45 @@ e1000_receive(void *addr, size_t *len);
 #define E1000_RXD_STAT_DD       0x01    /* Descriptor Done */
 #define E1000_RXD_STAT_EOP      0x02    /* End of Packet */
 
+/* 通过网卡设备MMIO的基址bar_va、偏移字节offset得到寄存器的va */
 #define E1000REG(offset) (void *) (bar_va + offset)
 
-#endif  // SOL >= 6
+/* T CTL（发送控制器【Controller】） */
+struct e1000_tctl {
+    uint32_t rsv1:   1;
+    uint32_t en:     1;
+    uint32_t rsv2:   1;
+    uint32_t psp:    1;
+    uint32_t ct:     8;
+    uint32_t cold:   10;
+    uint32_t swxoff: 1;
+    uint32_t rsv3:   1;
+    uint32_t rtlc:   1;
+    uint32_t nrtu:   1;
+    uint32_t rsv4:   6;
+};
+/* T IPG（发送的帧间间距【inter-packet gap】） */
+struct e1000_tipg {
+    uint32_t ipgt:   10;
+    uint32_t ipgr1:  10;
+    uint32_t ipgr2:  10;
+    uint32_t rsv:    2;
+};
+/* td的尾指针 */
+struct e1000_tdt {
+    uint16_t tdt;
+    uint16_t rsv;
+};
+/* td的长度 */
+struct e1000_tdlen {
+    uint32_t zero: 7;
+    uint32_t len:  13;
+    uint32_t rsv:  12;
+};
+/* td的头指针 */
+struct e1000_tdh {
+    uint16_t tdh;
+    uint16_t rsv;
+};
+
+#endif
