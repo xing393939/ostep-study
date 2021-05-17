@@ -54,6 +54,17 @@ e1000_receive(void *addr, size_t *len);
 /* 通过网卡设备MMIO的基址bar_va、偏移字节offset得到寄存器的va */
 #define E1000REG(offset) (void *) (bar_va + offset)
 
+/* 发送描述符 */
+struct e1000_tx_desc
+{
+    uint64_t addr;
+    uint16_t length;
+    uint8_t cso;
+    uint8_t cmd;
+    uint8_t status;
+    uint8_t css;
+    uint16_t special;
+}__attribute__((packed));
 /* T CTL（发送控制器【Controller】） */
 struct e1000_tctl {
     uint32_t rsv1:   1;
