@@ -473,11 +473,9 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
         case SYS_time_msec:
             return sys_time_msec();
         case SYS_pkt_send:
-            ret = sys_pkt_send((void *) a1, (size_t) a2);
-            break;
+            return sys_pkt_send((void *) a1, (size_t) a2);
         case SYS_pkt_recv:
-            ret = sys_pkt_recv((void *) a1, (size_t *) a2);
-            break;
+            return sys_pkt_recv((void *) a1, (size_t *) a2);
         default:
             return -E_INVAL;
     }
