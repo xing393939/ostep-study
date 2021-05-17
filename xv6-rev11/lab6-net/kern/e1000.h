@@ -55,8 +55,7 @@ e1000_receive(void *addr, size_t *len);
 #define E1000REG(offset) (void *) (bar_va + offset)
 
 /* 发送描述符 */
-struct e1000_tx_desc
-{
+struct e1000_tx_desc {
     uint64_t addr;
     uint16_t length;
     uint8_t cso;
@@ -102,5 +101,34 @@ struct e1000_tdh {
     uint16_t tdh;
     uint16_t rsv;
 };
-
+/* 接收描述符 */
+struct e1000_rx_desc {
+    uint64_t addr;
+    uint16_t length;
+    uint16_t chksum;
+    uint8_t status;
+    uint8_t errors;
+    uint16_t special;
+}__attribute__((packed));
+/* rd的长度 */
+struct e1000_rdlen {
+    unsigned zero: 7;
+    unsigned len: 13;
+    unsigned rsv: 12;
+};
+/* rd的头指针 */
+struct e1000_rdh {
+    uint16_t rdh;
+    uint16_t rsv;
+};
+/* rd的尾指针 */
+struct e1000_rdt {
+    uint16_t rdt;
+    uint16_t rsv;
+};
+/* 常量 */
+enum {
+    E_TRANSMIT_RETRY = 1,
+    E_RECEIVE_RETRY
+};
 #endif
