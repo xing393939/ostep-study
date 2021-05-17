@@ -5,5 +5,6 @@ void
 umain(int argc, char **argv)
 {
 	cprintf("hello, world\n");
-	cprintf("i am environment %08x\n", thisenv->env_id);
+	char *content = "abcd";
+	cprintf("sys_pkt_send: %d\n", sys_pkt_send(content, 5));
 }
