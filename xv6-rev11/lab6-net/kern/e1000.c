@@ -1,6 +1,6 @@
 #include <kern/e1000.h>
 #include <kern/pmap.h>
-#include <kern/pci.h>
+#include <inc/string.h>
 
 /* 网卡设备MMIO的基址va */
 volatile void *bar_va;
