@@ -62,7 +62,15 @@ alloc_block(void)
 	// super->s_nblocks blocks in the disk altogether.
 
 	// LAB 5: Your code here.
-	panic("alloc_block not implemented");
+    size_t i;
+    for(i = 1; i < super->s_nblocks; i++) {
+        if (block_is_free(i)) {
+            // 清零，标记已经使用。有点令人费解
+            bitmap[i/32] &= ~(1<<(i%32));
+            flush_block(&bitmap[i/32]);
+            return i;
+        }
+    }
 	return -E_NO_DISK;
 }
 
@@ -134,8 +142,31 @@ fs_init(void)
 static int
 file_block_walk(struct File *f, uint32_t filebno, uint32_t **ppdiskbno, bool alloc)
 {
-       // LAB 5: Your code here.
-       panic("file_block_walk not implemented");
+    // LAB 5: Your code here.
+    uint32_t blockno;
+    if (filebno >= NDIRECT + NINDIRECT)
+        return -E_INVAL;
+    if (filebno < NDIRECT) {
+        *ppdiskbno = f->f_direct + filebno;
+        return 0;
+    }
+    if (!(f->f_indirect)) {
+        // get here means that we need to allocate an indirect block,
+        // but alloc was 0.
+        if (!alloc)
+            return -E_NOT_FOUND;
+        // Now we could allocate an indirect block by using alloc_block.
+        if ((blockno = alloc_block()) < 0)
+            return -E_NO_DISK;
+        f->f_indirect = blockno;
+        // claer the block we allocated above.
+        memset(diskaddr(f->f_indirect), 0, BLKSIZE);
+        flush_block(diskaddr(f->f_indirect));
+    }
+    // There is a trick:f->f_indirect is an block number while f->direct is an virtual address.
+    // That's why we need to convert f->f_indirect to virtual address firstly.
+    *ppdiskbno = ((uint32_t *) diskaddr(f->f_indirect)) + (filebno - NDIRECT);
+    return 0;
 }
 
 // Set *blk to the address in memory where the filebno'th
@@ -149,8 +180,21 @@ file_block_walk(struct File *f, uint32_t filebno, uint32_t **ppdiskbno, bool all
 int
 file_get_block(struct File *f, uint32_t filebno, char **blk)
 {
-       // LAB 5: Your code here.
-       panic("file_get_block not implemented");
+    // LAB 5: Your code here.
+    int r;
+    uint32_t *ppdiskno;
+
+    // value of r might be 0, -E_INVAL, -E_NO_DISK.
+    if ((r = file_block_walk(f, filebno, &ppdiskno, 1)) < 0)
+        return r;
+    // *ppdiskno is zero means that we should allocate a blobk.
+    if (!(*ppdiskno)) {
+        if ((r = alloc_block()) < 0)
+            return -E_NO_DISK;
+        *ppdiskno = r;
+    }
+    *blk = (char *) diskaddr(*ppdiskno);
+    return 0;
 }
 
 // Try to find a file named "name" in dir.  If so, set *file to it.
