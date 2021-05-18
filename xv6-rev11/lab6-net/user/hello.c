@@ -19,7 +19,7 @@ void
 umain(int argc, char **argv) {
     cprintf("hello, world\n");
     char *content = "abcd";
-    for (i = 0; i < 50; i++) {
+    for (int i = 0; i < 50; i++) {
         sleep(1);
         cprintf("sys_pkt_send: %d\n", sys_pkt_send(content, 5));
     }
