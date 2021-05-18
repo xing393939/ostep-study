@@ -25,6 +25,7 @@ e1000_attachfn(struct pci_func *pcif) {
     cprintf("device status:[%08x]\n", *status_reg);
 
     e1000_transmit_init();
+    e1000_receive_init();
     return 0;
 }
 
