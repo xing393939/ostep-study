@@ -1,4 +1,5 @@
 #include "ns.h"
+#include "kern/e1000.h"
 
 extern union Nsipc nsipcbuf;
 
