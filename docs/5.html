@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>系统调用细节 · GitBook</title>
+        <title>5.xv6源码学习 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,8 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="x86-02.html" />
     
+    <link rel="prev" href="4.html" />
     
 
     </head>
@@ -154,7 +154,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="5.html">
+        <li class="chapter active" data-level="1.6" data-path="5.html">
             
                 <a href="5.html">
             
@@ -181,7 +181,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.7.1" data-path="x86-01.html">
+        <li class="chapter " data-level="1.7.1" data-path="x86-01.html">
             
                 <a href="x86-01.html">
             
@@ -268,7 +268,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >系统调用细节</a>
+        <a href=".." >5.xv6源码学习</a>
     </h1>
 </div>
 
@@ -283,56 +283,36 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h3 id="&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7EC6;&#x8282;">&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7EC6;&#x8282;</h3>
-<h4 id="&#x77E5;&#x8BC6;">&#x77E5;&#x8BC6;</h4>
-<ul>
-<li><a href="http://m.blog.chinaunix.net/uid-25739055-id-4105876.html" target="_blank">x86&#x5904;&#x7406;&#x5668;&#x4E2D;&#x7684;&#x7279;&#x6743;&#x7EA7;&#x68C0;&#x67E5;&#x53CA;Linux&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x7684;&#x5B9E;&#x73B0;</a></li>
-<li>IDT&#x8868;&#x7684;item&#xFF1A;&#x6BB5;&#x9009;&#x62E9;&#x7B26; + &#x5904;&#x7406;&#x51FD;&#x6570;&#x4F4D;&#x7F6E;&#x504F;&#x79FB; + DPL</li>
-<li>GDT&#x8868;&#x7684;item&#xFF1A;&#x6BB5;&#x7684;&#x57FA;&#x5740;</li>
-</ul>
-<h4 id="&#x6B65;&#x9AA4;">&#x6B65;&#x9AA4;</h4>
+                                <h3 id="xv6&#x6E90;&#x7801;&#x5B66;&#x4E60;">xv6&#x6E90;&#x7801;&#x5B66;&#x4E60;</h3>
+<h4 id="&#x53C2;&#x8003;&#x8D44;&#x6599;">&#x53C2;&#x8003;&#x8D44;&#x6599;</h4>
 <ol>
-<li>int 80&#xFF1B;&#x7528;&#x6237;&#x6001;&#x53D1;&#x8D77;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x6B64;&#x65F6;CPL=3</li>
-<li>&#x627E;&#x5230;&#x5BF9;&#x5E94;IDT&#x8868;&#x7684;item&#xFF0C;&#x5176;&#x4E2D;DPL=3&#xFF0C;&#x6240;&#x4EE5;&#x6743;&#x9650;&#x68C0;&#x67E5;&#x901A;&#x8FC7;&#xFF0C;&#x83B7;&#x5F97;&#x6BB5;&#x9009;&#x62E9;&#x7B26;__KERNEL_CS&#xFF0C;&#x5904;&#x7406;&#x51FD;&#x6570;&#x4F4D;&#x7F6E;&#x504F;&#x79FB;system_call</li>
-<li>&#x56E0;&#x4E3A;__KERNEL_CS&#x4E2D;&#x7684;RPL=0&#xFF0C;&#x6240;&#x4EE5;&#x7279;&#x6743;&#x7EA7;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x6B64;&#x65F6;CPL=0&#xFF08;&#x6B64;&#x6B65;&#x9AA4;&#x90FD;&#x662F;&#x786C;&#x4EF6;&#x6765;&#x5B8C;&#x6210;&#xFF09;</li>
-<li>&#x8DF3;&#x8F6C;&#x5230;__KERNEL_CS: system_call&#x6267;&#x884C;&#xFF08;&#x5148;&#x901A;&#x8FC7;__KERNEL_CS&#x5728;GDT&#x627E;&#x5230;&#x6BB5;&#x7684;&#x57FA;&#x5740;&#xFF09;</li>
+<li><a href="https://th0ar.gitbooks.io/xv6-chinese/" target="_blank">xv6 &#x4E2D;&#x6587;&#x6587;&#x6863;</a></li>
 </ol>
-<h4 id="&#x7EC6;&#x8282;">&#x7EC6;&#x8282;</h4>
-<pre><code class="lang-c"><span class="hljs-comment">// &#x7528;&#x6237;&#x6001;&#xFF0C;CPL=3&#xFF0C;&#x8C03;&#x7528;sys_getenvid</span>
-mov [num] %eax     <span class="hljs-comment">// &#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x53F7;</span>
-mov [a1] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;1</span>
-mov [a2] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;2</span>
-mov [a3] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
-mov [a4] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;3</span>
-mov [a5] %edx      <span class="hljs-comment">// &#x53C2;&#x6570;4</span>
-<span class="hljs-keyword">int</span> <span class="hljs-number">0x30</span>           <span class="hljs-comment">/* &#x53D1;&#x8D77;&#x8C03;&#x7528;&#xFF0C;IDT&#x8868;&#x53D6;&#x95E8;&#x63CF;&#x8FF0;&#x7B26;&#xFF08;__KERNEL_CS: system_call&#xFF09;
-                    * __KERNEL_CS&#x662F;&#x6BB5;&#x9009;&#x62E9;&#x7B26;&#xFF08;16bit&#xFF0C;&#x524D;13bit=GDT&#x8868;&#x7684;&#x7D22;&#x5F15;&#xFF0C;1bit=DI&#xFF0C;2bit=RPL&#xFF09;
-                    * __KERNEL_CS&#x5728;GDT&#x8868;&#x627E;&#x5230;&#x6BB5;&#x57FA;&#x5740;
-                    * __KERNEL_CS&#x7684;RPL&#x5982;&#x679C;=0&#xFF0C;&#x800C;CPL=3&#xFF0C;&#x5219;&#x5C06;CPL&#x7F6E;0&#x5E76;&#x5207;&#x6362;&#x6808;&#xFF1A;
-                    * 1. &#x627E;&#x5230;TR&#x6307;&#x5411;&#x7684;TSS&#x6BB5;&#xFF0C;&#x8BA9;esp=esp0&#xFF0C;ss=ss0
-                    * 2. &#x5728;&#x6808;&#x4E0A;push ss; esp; eflags; cs; eip;
-                    */</span>
-
-<span class="hljs-comment">// &#x5185;&#x6838;&#x6001;&#xFF0C;CPL=0&#xFF0C;ESP=efffffe8</span>
-TRAPHANDLER_NOEC:
-  pushl $<span class="hljs-number">0</span>;        <span class="hljs-comment">// push errcode</span>
-  pushl <span class="hljs-number">0x30</span>;      <span class="hljs-comment">// push 0x30</span>
-  jmp _alltraps    <span class="hljs-comment">//</span>
-
-_alltraps:         
-  pushl %ds        <span class="hljs-comment">// push ds</span>
-  pushl %es        <span class="hljs-comment">// push es</span>
-  pushal           <span class="hljs-comment">// push edi; esi; ebp; oesp; ebx; edx; ecx; eax;</span>
-  pushl %esp       <span class="hljs-comment">// push esp</span>
-  movw $GD_KD, %ax <span class="hljs-comment">// GDT Kernel Data</span>
-  movw %ax, %ds    <span class="hljs-comment">// &#x8BBE;&#x7F6E;ds&#x5BC4;&#x5B58;&#x5668;</span>
-  movw %ax, %es    <span class="hljs-comment">// &#x8BBE;&#x7F6E;es&#x5BC4;&#x5B58;&#x5668;</span>
-  call trap
-
-trap:
-  <span class="hljs-comment">// &#x5904;&#x7406;&#x7A0B;&#x5E8F;</span>
-  <span class="hljs-comment">// &#x8C03;&#x7528;env_pop_tf&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x7528;&#x6237;&#x6001;</span>
-</code></pre>
+<h4 id="&#x7B2C;0&#x7AE0;-&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x63A5;&#x53E3;">&#x7B2C;0&#x7AE0; &#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x63A5;&#x53E3;</h4>
+<ol>
+<li>&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x5DE5;&#x4F5C;&#x662F;&#xFF1A;<ul>
+<li>(1)&#x5C06;&#x8BA1;&#x7B97;&#x673A;&#x7684;&#x8D44;&#x6E90;&#x5728;&#x591A;&#x4E2A;&#x7A0B;&#x5E8F;&#x95F4;&#x5171;&#x4EAB;&#xFF0C;&#x5E76;&#x4E14;&#x7ED9;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x4E00;&#x7CFB;&#x5217;&#x6BD4;&#x786C;&#x4EF6;&#x672C;&#x8EAB;&#x66F4;&#x6709;&#x7528;&#x7684;&#x670D;&#x52A1;&#x3002;</li>
+<li>(2)&#x7BA1;&#x7406;&#x5E76;&#x62BD;&#x8C61;&#x5E95;&#x5C42;&#x786C;&#x4EF6;&#xFF0C;&#x4E3E;&#x4F8B;&#x6765;&#x8BF4;&#xFF0C;&#x7A0B;&#x5E8F;&#x4E0D;&#x7528;&#x53BB;&#x5173;&#x5FC3;&#x81EA;&#x5DF1;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x4F55;&#x79CD;&#x786C;&#x76D8;&#x3002;</li>
+<li>(3)&#x591A;&#x8DEF;&#x590D;&#x7528;&#x786C;&#x4EF6;&#xFF0C;&#x4F7F;&#x5F97;&#x591A;&#x4E2A;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;(&#x81F3;&#x5C11;&#x770B;&#x8D77;&#x6765;&#x662F;)&#x540C;&#x65F6;&#x8FD0;&#x884C;&#x7684;&#x3002;</li>
+<li>(4)&#x6700;&#x540E;&#xFF0C;&#x7ED9;&#x7A0B;&#x5E8F;&#x95F4;&#x63D0;&#x4F9B;&#x4E00;&#x79CD;&#x53D7;&#x63A7;&#x7684;&#x4EA4;&#x4E92;&#x65B9;&#x5F0F;&#xFF0C;&#x4F7F;&#x5F97;&#x7A0B;&#x5E8F;&#x4E4B;&#x95F4;&#x53EF;&#x4EE5;&#x5171;&#x4EAB;&#x6570;&#x636E;&#x3001;&#x5171;&#x540C;&#x5DE5;&#x4F5C;&#x3002;</li>
+</ul>
+</li>
+<li>&#x6309;&#x7167; Unix &#x7684;&#x672F;&#x8BED;&#x6765;&#x8BF4;&#xFF0C;&#x6240;&#x6709;&#x7684; xv6 &#x8FDB;&#x7A0B;&#x90FD;&#x4EE5; root &#x7528;&#x6237;&#x6267;&#x884C;</li>
+<li>&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x7684;&#x79CD;&#x7C7B;&#xFF1A;<ul>
+<li>&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#xFF1A;&#x6587;&#x4EF6;&#x6216;&#x8005;&#x76EE;&#x5F55;</li>
+<li>&#x7F51;&#x5361;&#x8BBE;&#x5907;</li>
+<li>&#x7BA1;&#x9053;&#xFF08;pipe&#xFF09;</li>
+<li>&#x8F93;&#x5165;&#x8F93;&#x51FA;</li>
+</ul>
+</li>
+<li>echo hello world | wc &#x53EF;&#x4EE5;&#x7528;&#x65E0;&#x7BA1;&#x9053;&#x7684;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#xFF1A;echo hello world &gt; /tmp/xyz; wc &lt; /tmp/xyz&#x3002;&#x533A;&#x522B;&#x5728;&#xFF1A;<ol>
+<li>&#x7BA1;&#x9053;&#x4F1A;&#x8FDB;&#x884C;&#x81EA;&#x6211;&#x6E05;&#x626B;&#xFF0C;&#x5982;&#x679C;&#x662F; shell &#x91CD;&#x5B9A;&#x5411;&#x7684;&#x8BDD;&#xFF0C;&#x5728;&#x4EFB;&#x52A1;&#x5B8C;&#x6210;&#x540E;&#x5220;&#x9664; /tmp/xyz&#x3002;</li>
+<li>&#x7BA1;&#x9053;&#x53EF;&#x4EE5;&#x4F20;&#x8F93;&#x4EFB;&#x610F;&#x957F;&#x5EA6;&#x7684;&#x6570;&#x636E;&#x3002;</li>
+<li>&#x7BA1;&#x9053;&#x5141;&#x8BB8;&#x540C;&#x6B65;&#xFF1A;&#x6BCF;&#x4E00;&#x4E2A;&#x8BFB;&#x64CD;&#x4F5C;&#x90FD;&#x963B;&#x585E;&#x8C03;&#x7528;&#x8FDB;&#x7A0B;&#xFF0C;&#x76F4;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x7528;write&#x5B8C;&#x6210;&#x6570;&#x636E;&#x7684;&#x53D1;&#x9001;&#x3002;</li>
+</ol>
+</li>
+<li>xv6&#x7684;shell&#x547D;&#x4EE4;&#x90FD;&#x662F;&#x7528;&#x6237;&#x7A0B;&#x5E8F;&#xFF0C;&#x8BF8;&#x5982;mkdir&#x3001;ln&#x3001;rm&#x7B49;&#x7B49;&#xFF0C;&#x53EA;&#x6709;cd&#x4F8B;&#x5916;&#x3002;</li>
+</ol>
 
                                 
                                 </section>
@@ -360,10 +340,10 @@ trap:
 
             
                 
-                
-                <a href="x86-02.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 如何进入用户态">
-                    <i class="fa fa-angle-right"></i>
+                <a href="4.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 4.MIT6.828 JOS实验">
+                    <i class="fa fa-angle-left"></i>
                 </a>
+                
                 
             
         
@@ -372,7 +352,7 @@ trap:
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"系统调用细节","level":"1.7.1","depth":2,"next":{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},"previous":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/x86-01.md","mtime":"2021-05-19T07:05:31.973Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-19T07:06:00.010Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"5.xv6源码学习","level":"1.6","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"path":"docs/4.md","ref":"docs/4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/5.md","mtime":"2021-05-19T07:05:31.973Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-19T07:06:00.010Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

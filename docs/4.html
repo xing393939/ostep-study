@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>4.xv6源码学习 · GitBook</title>
+        <title>4.MIT6.828 JOS实验 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -56,6 +56,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
+    
+    <link rel="next" href="5.html" />
     
     
     <link rel="prev" href="3.html" />
@@ -146,7 +148,7 @@
                 <a href="4.html">
             
                     
-                    4.xv6源码学习
+                    4.MIT6.828 JOS实验
             
                 </a>
             
@@ -154,7 +156,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" >
+        <li class="chapter " data-level="1.6" data-path="5.html">
+            
+                <a href="5.html">
+            
+                    
+                    5.xv6源码学习
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
             
                 <span>
             
@@ -168,7 +183,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="x86-01.html">
+        <li class="chapter " data-level="1.7.1" data-path="x86-01.html">
             
                 <a href="x86-01.html">
             
@@ -181,7 +196,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="x86-02.html">
+        <li class="chapter " data-level="1.7.2" data-path="x86-02.html">
             
                 <a href="x86-02.html">
             
@@ -194,7 +209,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.3" data-path="x86-03.html">
+        <li class="chapter " data-level="1.7.3" data-path="x86-03.html">
             
                 <a href="x86-03.html">
             
@@ -207,7 +222,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.4" data-path="x86-04.html">
+        <li class="chapter " data-level="1.7.4" data-path="x86-04.html">
             
                 <a href="x86-04.html">
             
@@ -255,7 +270,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >4.xv6源码学习</a>
+        <a href=".." >4.MIT6.828 JOS实验</a>
     </h1>
 </div>
 
@@ -270,7 +285,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h3 id="xv6&#x6E90;&#x7801;&#x5B66;&#x4E60;">xv6&#x6E90;&#x7801;&#x5B66;&#x4E60;</h3>
+                                <h3 id="mit6828-jos&#x5B9E;&#x9A8C;">MIT6.828 JOS&#x5B9E;&#x9A8C;</h3>
 <h4 id="&#x53C2;&#x8003;&#x8D44;&#x6599;">&#x53C2;&#x8003;&#x8D44;&#x6599;</h4>
 <ol>
 <li><a href="https://th0ar.gitbooks.io/xv6-chinese/" target="_blank">xv6 &#x4E2D;&#x6587;&#x6587;&#x6863;</a></li>
@@ -761,10 +776,14 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
 
             
                 
-                <a href="3.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 3.x86架构操作系统内核的实现">
+                <a href="3.html" class="navigation navigation-prev " aria-label="Previous page: 3.x86架构操作系统内核的实现">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="5.html" class="navigation navigation-next " aria-label="Next page: 5.xv6源码学习">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -773,7 +792,7 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.xv6源码学习","level":"1.5","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.6","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.6.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.6.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.6.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.6.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-19T02:52:21.555Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-19T02:52:53.657Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"next":{"title":"5.xv6源码学习","level":"1.6","depth":1,"path":"docs/5.md","ref":"docs/5.md","articles":[]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-19T07:05:31.973Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-19T07:06:00.010Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
