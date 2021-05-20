@@ -726,7 +726,18 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
 </li>
 </ol>
 </li>
-<li>&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x73AF;&#x5883;&#x7684;&#x56DB;&#x4E2A;&#x64CD;&#x4F5C;&#xFF1A;<ul>
+<li><p>&#x7F51;&#x7EDC;&#x5305;&#x7684;&#x63A5;&#x6536;&#x6D41;&#x7A0B;&#xFF1A;</p>
+<ul>
+<li>&#x8F93;&#x5165;&#x73AF;&#x5883;net/input.c&#xFF1A;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;sys_pkt_recv-&gt;e1000_receive&#xFF0C;&#x83B7;&#x53D6;RX&#x73AF;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5E76;pic&#x901A;&#x77E5;&#x7F51;&#x7EDC;&#x7CFB;&#x7EDF;&#x73AF;&#x5883;</li>
+<li>&#x7F51;&#x7EDC;&#x7CFB;&#x7EDF;&#x73AF;&#x5883;net.serv.c&#xFF1A;&#x8C03;&#x7528;net/lwip/jos/jif/jif.c&#x7684;jif_input(struct netif, void *va)</li>
+<li>&#x7528;&#x6237;&#x8FDB;&#x7A0B;accept&#x540E;read-&gt;devsock_read-&gt;nsipc_recv(int sockid, *buf, int len, int flags)-&gt;ipc_recv()<ul>
+<li>&#x56E0;&#x4E3A;&#x662F;ipc&#x901A;&#x8BAF;&#xFF0C;ipc_recv&#x540E;&#xFF0C;env&#x7F6E;&#x4E3A;ENV_NOT_RUNNABLE&#xFF08;&#x6302;&#x8D77;&#xFF09;&#xFF0C;&#x5F53;&#x6536;&#x5230;pic&#x65F6;&#x7F6E;&#x4E3A;ENV_RUNNABLE</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x73AF;&#x5883;&#x7684;&#x56DB;&#x4E2A;&#x64CD;&#x4F5C;&#xFF1A;</p>
+<ul>
 <li>read</li>
 <li>write</li>
 <li>stat</li>
@@ -744,11 +755,64 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
 <li><a href="https://www.cnblogs.com/gatsby123/p/10080311.html" target="_blank">&#x7528;&#x6237;&#x7EA7;&#x7EBF;&#x7A0B;&#x5B9E;&#x73B0;</a></li>
 <li>&#x79C1;&#x6709;&#x53D8;&#x91CF;thread_queue&#xFF1A;&#x5355;&#x94FE;&#x8868;&#xFF0C;&#x6709;2&#x4E2A;&#x6307;&#x9488;&#x5206;&#x522B;&#x6307;&#x5411;&#x94FE;&#x8868;&#x7684;&#x5934;&#x548C;&#x5C3E;</li>
 <li>thread_init()</li>
-<li>thread_create(thread_id_t <em>tid, const char </em>name, void (*entry)(uint32_t), uint32_t arg)</li>
+<li>thread_create(thread_id_t <em>tid, const char </em>name, void (*entry), uint32_t arg)</li>
 <li>thread_yield()</li>
 </ul>
 </li>
 </ol>
+<pre><code class="lang-c"><span class="hljs-comment">/************************eth&#x7684;&#x7ED3;&#x6784;**************************/</span>
+<span class="hljs-keyword">struct</span> eth_hdr
+{
+    <span class="hljs-keyword">u_int8_t</span> ether_dhost[<span class="hljs-number">6</span>]; <span class="hljs-comment">// &#x76EE;&#x6807;mac&#x5730;&#x5740;</span>
+    <span class="hljs-keyword">u_int8_t</span> ether_shost[<span class="hljs-number">6</span>]; <span class="hljs-comment">// &#x6E90;mac&#x5730;&#x5740; </span>
+    <span class="hljs-keyword">u_int16_t</span> ether_type;    <span class="hljs-comment">// packet type ID field </span>
+};
+<span class="hljs-comment">/***********************IP&#x7684;&#x7ED3;&#x6784;****************************/</span>
+<span class="hljs-keyword">struct</span> iphdr
+{
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> version:<span class="hljs-number">4</span>; <span class="hljs-comment">//&#x7248;&#x672C;&#xFF0C;4bit</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> ihl:<span class="hljs-number">4</span>;     <span class="hljs-comment">//ip&#x5934;&#x957F;&#x5EA6;&#xFF0C;4bit&#xFF0C;&#x53D6;&#x503C;&#x8303;&#x56F4;5~15&#xFF0C;ip&#x5934;&#x8303;&#x56F4;20byte~60byte</span>
+
+    <span class="hljs-keyword">u_int8_t</span> tos;
+    <span class="hljs-keyword">u_int16_t</span> tot_len;
+    <span class="hljs-keyword">u_int16_t</span> id;
+    <span class="hljs-keyword">u_int16_t</span> frag_off;
+    <span class="hljs-keyword">u_int8_t</span> ttl;
+    <span class="hljs-keyword">u_int8_t</span> protocol;
+    <span class="hljs-keyword">u_int16_t</span> check;
+    <span class="hljs-keyword">u_int32_t</span> saddr;        <span class="hljs-comment">//&#x6E90;ip&#x5730;&#x5740;</span>
+    <span class="hljs-keyword">u_int32_t</span> daddr;        <span class="hljs-comment">//&#x76EE;&#x6807;ip&#x5730;&#x5740;</span>
+};
+<span class="hljs-comment">/***********************TCP&#x7684;&#x7ED3;&#x6784;***************************/</span>
+<span class="hljs-keyword">struct</span> tcphdr
+{
+    <span class="hljs-keyword">u_int16_t</span> source;       <span class="hljs-comment">//&#x6E90;&#x7AEF;&#x53E3;</span>
+    <span class="hljs-keyword">u_int16_t</span> dest;         <span class="hljs-comment">//&#x76EE;&#x6807;&#x7AEF;&#x53E3;</span>
+    <span class="hljs-keyword">u_int32_t</span> seq;          <span class="hljs-comment">//&#x5E8F;&#x5217;&#x53F7;</span>
+    <span class="hljs-keyword">u_int32_t</span> ack_seq;      <span class="hljs-comment">//ack&#x5E8F;&#x5217;&#x53F7;</span>
+    <span class="hljs-keyword">u_int16_t</span> res1:<span class="hljs-number">4</span>;       <span class="hljs-comment">//tcp&#x5934;&#x957F;&#x5EA6;&#xFF0C;4bit&#xFF0C;&#x53D6;&#x503C;&#x8303;&#x56F4;5~15&#xFF0C;tcp&#x5934;&#x8303;&#x56F4;20byte~60byte</span>
+    <span class="hljs-keyword">u_int16_t</span> doff:<span class="hljs-number">4</span>;
+    <span class="hljs-keyword">u_int16_t</span> fin:<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">u_int16_t</span> syn:<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">u_int16_t</span> rst:<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">u_int16_t</span> psh:<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">u_int16_t</span> ack:<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">u_int16_t</span> urg:<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">u_int16_t</span> res2:<span class="hljs-number">2</span>;
+
+    <span class="hljs-keyword">u_int16_t</span> window;
+    <span class="hljs-keyword">u_int16_t</span> check;
+    <span class="hljs-keyword">u_int16_t</span> urg_ptr;
+};
+<span class="hljs-comment">/***********************UDP&#x7684;&#x7ED3;&#x6784;***************************/</span>
+<span class="hljs-keyword">struct</span> udphdr
+{
+    <span class="hljs-keyword">u_int16_t</span> source;
+    <span class="hljs-keyword">u_int16_t</span> dest;
+    <span class="hljs-keyword">u_int16_t</span> len;
+    <span class="hljs-keyword">u_int16_t</span> check;
+};
+</code></pre>
 
                                 
                                 </section>
@@ -792,7 +856,7 @@ kern/init.c:i386_init ==&gt; kern/init.c:boot_aps ==============================
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"next":{"title":"5.xv6源码学习","level":"1.6","depth":1,"path":"docs/5.md","ref":"docs/5.md","articles":[]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-19T09:18:42.491Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-19T09:19:15.919Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"next":{"title":"5.xv6源码学习","level":"1.6","depth":1,"path":"docs/5.md","ref":"docs/5.md","articles":[]},"previous":{"title":"3.x86架构操作系统内核的实现","level":"1.4","depth":1,"path":"docs/3.md","ref":"docs/3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/4.md","mtime":"2021-05-20T03:16:45.839Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-20T03:17:19.336Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
