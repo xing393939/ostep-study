@@ -403,7 +403,37 @@
 </ul>
 </li>
 </ol>
+<pre><code>&#x7528;qemu&#x7684;info pg&#x547D;&#x4EE4;&#x89C2;&#x5BDF;&#x9875;&#x8868;&#xFF1A;
+1.&#x5728;&#x6CA1;&#x6709;&#x8BBE;&#x7F6E;&#x9875;&#x8868;&#x4E4B;&#x524D;&#xFF1A;&#x4F7F;&#x7528;&#x4E34;&#x65F6;&#x9875;&#x8868;
+VPN range     Entry         Flags        Physical page
+[00000-003ff]  PDE[000]     --S-A---WP 00000-003ff 
+[80000-803ff]  PDE[200]     --S-A---WP 00000-003ff
+&#x865A;&#x62DF;&#x5730;&#x5740;&#x540E;&#x52A0;000&#xFF0C;&#x5373;&#x4E3A;&#xFF1A;
+[00000000-003ff000] -&gt; 00000000-003ff000
+[80000000-803ff000] -&gt; 00000000-003ff000
 
+2.&#x5185;&#x6838;&#x7684;&#x9875;&#x8868;&#x6620;&#x5C04;
+VPN range     Entry         Flags        Physical page
+[80000-803ff]  PDE[200]     ----A--UWP
+  [80000-800ff]  PTE[000-0ff] --------WP 00000-000ff
+  [80100-80101]  PTE[100-101] ---------P 00100-00101
+  [80102-80102]  PTE[102]     ----A----P 00102
+  [80103-80105]  PTE[103-105] ---------P 00103-00105
+  [80106-80106]  PTE[106]     ----A----P 00106
+  [80107-80107]  PTE[107]     ---------P 00107
+  [80108-8010a]  PTE[108-10a] --------WP 00108-0010a
+  [8010b-8010b]  PTE[10b]     ----A---WP 0010b
+  [8010c-803ff]  PTE[10c-3ff] --------WP 0010c-003ff
+[80400-8dfff]  PDE[201-237] -------UWP
+  [80400-8dfff]  PTE[000-3ff] --------WP 00400-0dfff
+[fe000-fffff]  PDE[3f8-3ff] -------UWP
+  [fe000-fffff]  PTE[000-3ff] --------WP fe000-fffff
+&#x865A;&#x62DF;&#x5730;&#x5740;&#x540E;&#x52A0;000&#xFF0C;&#x5373;&#x4E3A;&#xFF1A;
+[80000000-800ff000] -&gt; 00000000-000ff000
+[80100000-803ff000] -&gt; 00100000-003ff000
+[80400000-8dfff000] -&gt; 00400000-0dfff000
+[fe000000-fffff000] -&gt; fe000000-fffff000
+</code></pre>
                                 
                                 </section>
                             
@@ -442,7 +472,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"5.xv6源码学习","level":"1.6","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"path":"docs/4.md","ref":"docs/4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/5.md","mtime":"2021-05-20T09:31:01.651Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-20T09:31:28.466Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"5.xv6源码学习","level":"1.6","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"path":"docs/4.md","ref":"docs/4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/5.md","mtime":"2021-05-20T10:47:38.828Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-20T10:48:04.843Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
