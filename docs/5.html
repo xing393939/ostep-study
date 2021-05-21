@@ -377,7 +377,7 @@
 <ol>
 <li>&#x5168;&#x5C40;&#x5E38;&#x91CF;KERNBASE&#xFF1A;0x80000000&#xFF1B;KERNBASE&#x4EE5;&#x4E0A;&#x662F;&#x5185;&#x6838;&#x7A7A;&#x95F4;</li>
 <li>&#x5168;&#x5C40;&#x5E38;&#x91CF;DEVSPACE&#xFF1A;0xFE000000&#xFF1B;I/O Hole</li>
-<li>&#x5168;&#x5C40;&#x5E38;&#x91CF;PHYSTOP&#xFF1A;0xE000000&#xFF1B;PHYSTOP&#x4EE5;&#x4E0B;&#x662F;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x5171;224MB</li>
+<li>&#x5168;&#x5C40;&#x5E38;&#x91CF;PHYSTOP&#xFF1A;0x0E000000&#xFF1B;PHYSTOP&#x4EE5;&#x4E0B;&#x662F;&#x7269;&#x7406;&#x5730;&#x5740;&#xFF0C;&#x5171;224MB</li>
 <li>PTE&#x7684;&#x6807;&#x5FD7;&#x4F4D;&#xFF1A;<ul>
 <li>PTE_P &#x8868;&#x793A;PTE&#x662F;&#x5426;&#x9648;&#x5217;&#x5728;&#x9875;&#x8868;&#x4E2D;</li>
 <li>PTE_W &#x63A7;&#x5236;&#x7740;&#x80FD;&#x5426;&#x5BF9;&#x9875;&#x6267;&#x884C;&#x5199;&#x64CD;&#x4F5C;</li>
@@ -395,11 +395,15 @@
 <li>VA&apos;s [KERNBASE, KERNBASE+4MB) to PA&apos;s [0, 4MB)</li>
 </ul>
 </li>
-<li>&#x5185;&#x6838;&#x7684;&#x9875;&#x8868;&#x6620;&#x5C04;&#xFF1A;<ul>
+<li>&#x5185;&#x6838;&#x7684;&#x9875;&#x8868;&#x6620;&#x5C04;&#xFF1A;main.c&#x7684;kvmalloc()<ul>
 <li>VA&apos;s [KERNBASE, ......... KERNBASE+1MB) ..... to PA&apos;s [0, 1MB) // I/O space</li>
 <li>VA&apos;s [KERNBASE+1MB, ..... KERNBASE+V2P(data)) to PA&apos;s [1MB,V2P(data)) // kern text+rodata</li>
 <li>VA&apos;s [KERNBASE+V2P(data), PHYSTOP) .......... to PA&apos;s [V2P(data),PHYSTOP) // kern data+memory</li>
 <li>VA&apos;s [DEVSPACE, ......... DEVSPACE+4K) ...... to PA&apos;s [DEVSPACE,DEVSPACE+4K) // more devices</li>
+</ul>
+</li>
+<li>&#x7528;&#x6237;&#x7684;&#x9875;&#x8868;&#x6620;&#x5C04;&#xFF1A;initcode.S<ul>
+<li>VA&apos;s [0, 0+4KB) ..... to PA&apos;s [&#x4E00;&#x9875;&#x7269;&#x7406;&#x9875;) // initcode.S&#x4EE3;&#x7801;</li>
 </ul>
 </li>
 </ol>
@@ -429,10 +433,12 @@ VPN range     Entry         Flags        Physical page
 [fe000-fffff]  PDE[3f8-3ff] -------UWP
   [fe000-fffff]  PTE[000-3ff] --------WP fe000-fffff
 &#x865A;&#x62DF;&#x5730;&#x5740;&#x540E;&#x52A0;000&#xFF0C;&#x5373;&#x4E3A;&#xFF1A;
-[80000000-800ff000] -&gt; 00000000-000ff000
-[80100000-803ff000] -&gt; 00100000-003ff000
-[80400000-8dfff000] -&gt; 00400000-0dfff000
-[fe000000-fffff000] -&gt; fe000000-fffff000
+[80000000-800ff000] -&gt; 00000000-000ff000 //I/O space
+[80100000-80107000] -&gt; 00100000-00107000 //kern text+rodata
+[80108000-8dfff000] -&gt; 00108000-0dfff000 //kern data+memory
+[fe000000-fffff000] -&gt; fe000000-fffff000 //more devices
+
+3.&#x7528;&#x6237;&#x7684;&#x9875;&#x8868;&#x6620;&#x5C04;&#xFF1A;
 </code></pre>
                                 
                                 </section>
@@ -472,7 +478,7 @@ VPN range     Entry         Flags        Physical page
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"5.xv6源码学习","level":"1.6","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"path":"docs/4.md","ref":"docs/4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/5.md","mtime":"2021-05-20T10:47:38.828Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-20T10:48:04.843Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"5.xv6源码学习","level":"1.6","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"path":"docs/4.md","ref":"docs/4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/5.md","mtime":"2021-05-21T02:22:07.034Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-21T02:22:40.704Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
