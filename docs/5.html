@@ -449,8 +449,44 @@ VPN range     Entry         Flags        Physical page
 </ul>
 </li>
 <li>eflags &#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684; IF &#x4F4D;&#xFF1A;=1&#x6253;&#x5F00;&#x4E2D;&#x65AD;&#xFF0C;=0&#x5173;&#x95ED;&#x4E2D;&#x65AD;</li>
-<li>xv6&#x4E2D;&#x7684;&#x4E2D;&#x65AD;&#x662F;&#x6307;&#x786C;&#x4EF6;&#x4E2D;&#x65AD;&#xFF1A;&#x4E2D;&#x65AD;&#x8FC7;&#x7A0B;&#x4E0D;&#x5141;&#x8BB8;&#x5904;&#x7406;&#x5176;&#x4ED6;&#x4E2D;&#x65AD;&#xFF0C;&#x5373;&#x8981;&#x6E05;&#x9664;IF&#x4F4D;</li>
-<li>xv6 &#x5C06;&#x952E;&#x76D8;&#x4E2D;&#x65AD;&#x5206;&#x53D1;&#x5230;&#x5904;&#x7406;&#x5668; 0&#xFF08;7516&#xFF09;&#x3002;&#x5C06;&#x78C1;&#x76D8;&#x4E2D;&#x65AD;&#x5206;&#x53D1;&#x5230;&#x7F16;&#x53F7;&#x6700;&#x5927;&#x7684;&#x5904;&#x7406;&#x5668;&#x3002;</li>
+<li>xv6&#x4E2D;&#x7684;&#x4E2D;&#x65AD;&#x662F;&#x6307;&#x786C;&#x4EF6;&#x4E2D;&#x65AD;&#xFF0C;&#x4E2D;&#x65AD;&#x8FC7;&#x7A0B;&#x4E0D;&#x5141;&#x8BB8;&#x5904;&#x7406;&#x5176;&#x4ED6;&#x4E2D;&#x65AD;&#xFF0C;&#x5373;&#x8981;&#x6E05;&#x9664;IF&#x4F4D;</li>
+<li>xv6&#x5C06;&#x952E;&#x76D8;&#x4E2D;&#x65AD;&#x5206;&#x53D1;&#x5230;&#x5904;&#x7406;&#x5668;&#x3002;&#x5C06;&#x78C1;&#x76D8;&#x4E2D;&#x65AD;&#x5206;&#x53D1;&#x5230;&#x7F16;&#x53F7;&#x6700;&#x5927;&#x7684;&#x5904;&#x7406;&#x5668;&#x3002;</li>
+<li>JOS&#x7684;&#x7F51;&#x5361;&#x6CA1;&#x6709;&#x4E2D;&#x65AD;&#xFF0C;&#x4F7F;&#x7528;&#x7684;&#x8F6E;&#x8BE2;&#x3002;&#x786C;&#x76D8;&#x6CA1;&#x6709;&#x4E2D;&#x65AD;&#xFF0C;pending&#x76F4;&#x5230;&#x786C;&#x76D8;&#x5B8C;&#x6210;&#x4EFB;&#x52A1;&#x3002;</li>
+</ol>
+<h4 id="&#x7B2C;3&#x7AE0;-&#x5B9E;&#x9645;&#x60C5;&#x51B5;">&#x7B2C;3&#x7AE0; &#x5B9E;&#x9645;&#x60C5;&#x51B5;</h4>
+<ol>
+<li>&#x786C;&#x76D8;&#xFF0C;&#x663E;&#x5361;&#x548C;&#x7F51;&#x5361;&#x5728;&#x9A71;&#x52A8;&#x4E2D;&#x540C;&#x6837;&#x90FD;&#x4F7F;&#x7528;&#x76F4;&#x63A5;&#x5185;&#x5B58;&#x8BBF;&#x95EE;&#xFF08;Direct memory access, DMA&#xFF09;&#x800C;&#x4E0D;&#x662F;&#x76F4;&#x63A5;&#x7528; I/O(insl, outsl)</li>
+<li>&#x672C;&#x7AE0;&#x7684;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x8BBE;&#x5907;&#x4F7F;&#x7528; I/O &#x6307;&#x4EE4;&#x7F16;&#x7A0B;&#x3002;&#x800C;&#x6240;&#x6709;&#x73B0;&#x4EE3;&#x8BBE;&#x5907;&#x90FD;&#x4F7F;&#x7528;&#x5185;&#x5B58;&#x6620;&#x5C04; I/O &#xFF08;Memory-mapped I/O&#xFF09;&#x6765;&#x8FDB;&#x884C;&#x7F16;&#x7A0B;</li>
+<li>&#x7F51;&#x5361;&#x7684;&#x8F6E;&#x8BE2;&#x548C;&#x4E2D;&#x65AD;&#xFF1A;<ul>
+<li>&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x6536;&#x5230;&#x5927;&#x91CF;&#x5305;&#x7684;&#x7F51;&#x7EDC;&#x8BBE;&#x5907;&#x6765;&#x8BF4;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x4ECE;&#x4E2D;&#x65AD;&#x5207;&#x6362;&#x5230;&#x8F6E;&#x8BE2;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x77E5;&#x9053;&#x4F1A;&#x5230;&#x6765;&#x66F4;&#x591A;&#x7684;&#x5305;&#x88AB;&#x5904;&#x7406;&#xFF0C;&#x4F7F;&#x7528;&#x8F6E;&#x8BE2;&#x4F1A;&#x964D;&#x4F4E;&#x5904;&#x7406;&#x5B83;&#x4EEC;&#x7684;&#x6210;&#x672C;&#x3002;</li>
+<li>&#x4E00;&#x65E6;&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x7684;&#x5305;&#x9700;&#x8981;&#x5904;&#x7406;&#x4E86;&#xFF0C;&#x9A71;&#x52A8;&#x53EF;&#x80FD;&#x5C31;&#x4F1A;&#x5207;&#x6362;&#x56DE;&#x4E2D;&#x65AD;&#x6A21;&#x5F0F;&#xFF0C;&#x4F7F;&#x5F97;&#x5F53;&#x6709;&#x65B0;&#x7684;&#x5305;&#x5230;&#x6765;&#x7684;&#x65F6;&#x5019;&#x80FD;&#x591F;&#x88AB;&#x7ACB;&#x523B;&#x901A;&#x77E5;</li>
+</ul>
+</li>
+<li>IDE &#x786C;&#x76D8;&#x7684;&#x9A71;&#x52A8;&#x9759;&#x6001;&#x7684;&#x53D1;&#x9001;&#x4E2D;&#x65AD;&#x5230;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x5904;&#x7406;&#x5668;&#x4E0A;&#x3002;</li>
+<li>&#x7F51;&#x5361;&#x53EF;&#x80FD;&#x4E3A;&#x4E00;&#x4E2A;&#x7F51;&#x7EDC;&#x8FDE;&#x63A5;&#x7684;&#x5305;&#x5411;&#x5904;&#x7406;&#x8FD9;&#x4E2A;&#x8FDE;&#x63A5;&#x7684;&#x5904;&#x7406;&#x5668;&#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x3002;</li>
+<li>&#x6CA1;&#x6709;&#x4F7F;&#x7528;&#x96F6;&#x62F7;&#x8D1D;&#x7684;&#x573A;&#x666F;&#xFF1A;&#x8BFB;&#x78C1;&#x76D8;<ul>
+<li>&#x7B2C;&#x4E00;&#x6B21;&#x662F;&#x7531;&#x9A71;&#x52A8;&#x4ECE;&#x786C;&#x76D8;&#x62F7;&#x8D1D;&#x5230;&#x5185;&#x6838;&#x5185;&#x5B58;&#xFF0C;</li>
+<li>&#x7B2C;&#x4E8C;&#x6B21;&#x901A;&#x8FC7; read &#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#xFF0C;&#x4ECE;&#x5185;&#x6838;&#x5185;&#x5B58;&#x62F7;&#x8D1D;&#x5230;&#x7528;&#x6237;&#x5185;&#x5B58;</li>
+</ul>
+</li>
+<li>IRQ&#x5217;&#x8868;&#xFF1A;IRQ&#x8D8A;&#x5C0F;&#x4F18;&#x5148;&#x7EA7;&#x8D8A;&#x9AD8;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;vector&#x8981;+32<ul>
+<li>IRQ0 &#xFF1A;&#x7CFB;&#x7EDF;&#x65F6;&#x949F;&#xFF08;&#x4E0D;&#x80FD;&#x6539;&#x53D8;&#xFF09;</li>
+<li>IRQ1 &#xFF1A;&#x952E;&#x76D8;&#x63A7;&#x5236;&#x5668;&#xFF08;&#x4E0D;&#x80FD;&#x6539;&#x53D8;&#xFF09;</li>
+<li>IRQ3 &#xFF1A;&#x4E32;&#x53E3;2&#x7684;&#x4E32;&#x53E3;&#x63A7;&#x5236;&#x5668;&#xFF08;&#x5982;&#x6709;&#x4E32;&#x53E3;4&#xFF0C;&#x5219;&#x5176;&#x4E5F;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x4E2D;&#x65AD;&#xFF09;</li>
+<li>IRQ4 &#xFF1A;&#x4E32;&#x53E3;1&#x7684;&#x4E32;&#x53E3;&#x63A7;&#x5236;&#x5668;&#xFF08;&#x5982;&#x6709;&#x4E32;&#x53E3;3&#xFF0C;&#x5219;&#x5176;&#x4E5F;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x4E2D;&#x65AD;&#xFF09;</li>
+<li>IRQ5 &#xFF1A;&#x5E76;&#x53E3;2&#x548C;3&#x6216;&#x58F0;&#x5361;</li>
+<li>IRQ6 &#xFF1A;&#x8F6F;&#x76D8;&#x63A7;&#x5236;&#x5668;</li>
+<li>IRQ7 : &#x5E76;&#x53E3;1&#x3002;&#x7528;&#x4E8E;&#x6253;&#x5370;&#x673A;&#xFF0C;&#x6CA1;&#x6709;&#x6253;&#x5370;&#x673A;&#x5219;&#x7528;&#x4E8E;&#x4EFB;&#x4F55;&#x5E76;&#x53E3;</li>
+<li>IRQ8 : Real time clock</li>
+<li>IRQ9 : Video</li>
+<li>IRQ10 : Open</li>
+<li>IRQ11 : Open</li>
+<li>IRQ12 : PS/2 mouse</li>
+<li>IRQ13 : Coprocessor</li>
+<li>IRQ14 : Primary IDE controller (hard drives)</li>
+<li>IRQ15 : Secondary IDE controller (hard drives)</li>
+</ul>
+</li>
 </ol>
 
                                 
@@ -491,7 +527,7 @@ VPN range     Entry         Flags        Physical page
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"5.xv6源码学习","level":"1.6","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"path":"docs/4.md","ref":"docs/4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/5.md","mtime":"2021-05-21T04:00:49.494Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-21T04:01:15.758Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"5.xv6源码学习","level":"1.6","depth":1,"next":{"title":"5.x86操作系统细节","level":"1.7","depth":1,"ref":"","articles":[{"title":"系统调用细节","level":"1.7.1","depth":2,"path":"docs/x86-01.md","ref":"docs/x86-01.md","articles":[]},{"title":"如何进入用户态","level":"1.7.2","depth":2,"path":"docs/x86-02.md","ref":"docs/x86-02.md","articles":[]},{"title":"多核问题","level":"1.7.3","depth":2,"path":"docs/x86-03.md","ref":"docs/x86-03.md","articles":[]},{"title":"中断和异常","level":"1.7.4","depth":2,"path":"docs/x86-04.md","ref":"docs/x86-04.md","articles":[]}]},"previous":{"title":"4.MIT6.828 JOS实验","level":"1.5","depth":1,"path":"docs/4.md","ref":"docs/4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/5.md","mtime":"2021-05-21T08:00:04.093Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-21T08:00:35.981Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
