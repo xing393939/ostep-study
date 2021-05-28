@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<unistd.h>
 
-#define offsetof(type, member) \
+#define offset_of(type, member) \
 ((size_t)(&((type *)0)->member))
 #define to_struct(ptr, type, member) \
-((type *)((char *)(ptr) - offsetof(type, member)))
-#define le2page(le, member) \
-to_struct((le), struct Page, member)
+((type *)((char *)(ptr) - offset_of(type, member)))
+#define to_struct_by(le, struct_name, member) \
+to_struct((le), struct struct_name, member)
 
 struct list_entry {
     struct list_entry *prev, *next;
@@ -54,29 +54,51 @@ list_next(list_entry_t *listelm) {
 
 /* 应用层 */
 typedef struct {
-    list_entry_t free_list;         // the list header of free pages
+    list_entry_t list_head;         // the list header of free pages
     int lock;
-} free_area_t;
-struct Page {
+} free_area_table;
+struct free_area_entry {
     int page;
-    list_entry_t page_link;         // free list link
+    list_entry_t list_link;         // free list link
+};
+typedef struct {
+    list_entry_t list_head;         // the list header of free pages
+    int lock;
+} buf_cache_table;
+struct buf_cache_entry {
+    int number;
+    list_entry_t list_link;         // free list link
 };
 
 int main(int argc, char **argv) {
-    free_area_t free_area;
-    list_init(&(free_area.free_list));
+    /* free_area_table */
+    buf_cache_table buf_cache;
+    list_init(&buf_cache.list_head);
+    struct buf_cache_entry buf[3];
+    struct buf_cache_entry link0;
+    for (int i = 0; i < 3; i++) {
+        buf[i].number = i;
+        list_add_after(&buf_cache.list_head, &buf[i].list_link);
+    }
+    list_entry_t *le0 = &buf_cache.list_head;
+    while ((le0 = list_next(le0)) != &buf_cache.list_head) {
+        struct buf_cache_entry * b = to_struct_by(le0, buf_cache_entry, list_link);
+        printf("%d \n", b->number);
+    }
 
-    struct Page pages[4];
-    struct Page *link;
+    /* free_area_table */
+    free_area_table free_area;
+    list_init(&(free_area.list_head));
+    struct free_area_entry pages[4];
+    struct free_area_entry *link;
     for (int i = 0; i < 4; i++) {
         pages[i].page = i;
         link = &pages[i];
-        list_add_before(&free_area.free_list, &(link->page_link));
+        list_add_before(&free_area.list_head, &(link->list_link));
     }
-
-    list_entry_t *le = &free_area.free_list;  //le是空闲块链表头指针
-    while ((le = list_next(le)) != &free_area.free_list) { //从第一个节点开始遍历
-        struct Page *p = le2page(le, page_link); //获取节点所在基于Page数据结构的变量
+    list_entry_t *le = &free_area.list_head;  //le是空闲块链表头指针
+    while ((le = list_next(le)) != &free_area.list_head) { //从第一个节点开始遍历
+        struct free_area_entry *p = to_struct_by(le, free_area_entry, list_link); //获取节点所在基于Page数据结构的变量
         printf("%d \n", p->page);
     }
 
