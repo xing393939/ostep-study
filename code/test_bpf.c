@@ -40,7 +40,7 @@ int main() {
     close(bfd);
     insn = (struct bpf_insn *) buf;
     strcpy(attr.prog_name, "mymain");
-    attr.prog_type = BPF_PROG_TYPE_KPROBE;
+    attr.prog_type = BPF_PROG_TYPE_TRACEPOINT;
     attr.insns = (unsigned long) insn;
     attr.insn_cnt = n / sizeof(struct bpf_insn);
     attr.license = (unsigned long) "GPL";
@@ -48,7 +48,7 @@ int main() {
     attr.log_buf = (unsigned long) log_buf;
     attr.log_level = 1;
     // see LINUX_VERSION_CODE in /usr/include/linux/version.h
-    attr.kern_version = 331584;
+    attr.kern_version = 331580;
     pfd = syscall(SYS_bpf, BPF_PROG_LOAD, &attr, sizeof(attr));
     if (pfd < 0) {
         printf("bpf syscall error: %s\n", strerror(errno));
@@ -60,8 +60,8 @@ int main() {
     pattr.sample_type = PERF_SAMPLE_RAW;
     pattr.sample_period = 1;
     pattr.wakeup_events = 1;
-    // cat /sys/kernel/debug/tracing/events/kprobes/sys_clone/id
-    pattr.config = 1528;
+    // cat /sys/kernel/debug/tracing/events/syscalls/sys_enter_bpf/id
+    pattr.config = 484;
     pattr.size = sizeof(pattr);
     efd = syscall(SYS_perf_event_open, &pattr, -1, 0, -1, 0);
     if (efd < 0) {
