@@ -13,6 +13,19 @@
 #include <linux/hw_breakpoint.h>
 #include <errno.h>
 
+int bpf_create_map(enum bpf_map_type map_type,
+                   unsigned int key_size,
+                   unsigned int value_size,
+                   unsigned int max_entries) {
+    union bpf_attr attr = {
+            .map_type = map_type,
+            .key_size = key_size,
+            .value_size = value_size,
+            .max_entries = max_entries
+    };
+    return bpf(BPF_MAP_CREATE, &attr, sizeof(attr));
+}
+
 int main() {
     int bfd;
     unsigned char buf[1024] = {};
